@@ -18,6 +18,14 @@
       ]
     }
   },
+  "33": {
+    "text": "The sleeping creature awakens startled. He jumps up and rushes at you, unarmed. With your sword you should be able to defeat him, but his sharp teeth look rather vicious. You may Escape through the door (turn to 320) or stand and fight the ORC who is attacking you.\nORC                        SKILL 6              STAMINA 4\nIf you defeat the creature, you may take the box. Turn to 147.",
+    "interaction": {
+      "kind": "fight",
+      "enemies": [{ "label": "orc", "skill": 6, "stamina": "4" }],
+      "to": "147"
+    }
+  },
   "71": {
     "text": "As you look in, you can see a strange Goblin-like creature in leather armour asleep at his post.\nThere is a right-hand turn to the north in the passage. Cautiously you approach a sentry post on the corner and, as you look in, you can see a strange Goblin-like creature in leather armour asleep at his post. You try to tiptoe past him. Test your Luck. If you are Lucky, he does not wake up and remains snoring loudly - turn to 301. If you are Unlucky, you step with a crunch on some loose ground and his eyes flick open - turn to 248.",
     "interaction": {
@@ -25,11 +33,33 @@
       "options": ["301", "248"]
     }
   },
+  "82": {
+    "text": "The door opens to reveal a small, smelly room. In the centre of the room is a rickety wooden table on which stands a lit candle. Underneath the table is a small wooden box. Asleep on a straw mattress in the far corner of the room is a short, stocky creature with an ugly, warty face; the same sort of creature that you found asleep at the sentry post. He must be the guard for the night watch. You may either return to the corridor and press on northwards (turn to 208) or creep into the room and try to take the box without waking the creature. If you want to try to steal the box, Test your Luck. If you are Lucky, he does not wake up - turn to 147. If you are Unlucky, turn to 33.",
+    "interaction": {
+      "kind": "luck",
+      "options": ["147", "33"]
+    }
+  },
   "92": {
     "text": "You arrive back at the junction in the passage. You look left to see the cave entrance in the dim distance but walk straight on. Turn to 71.",
     "interaction": {
       "kind": "gotos",
       "options": [{ "label": "turn page", "to": "71" }]
+    }
+  },
+  "108": {
+    "text": "The moment your foot touches a hand tile, you feel a vice-like grip on your ankle and look down to see a ghostly white hand gripping your leg. You fight for your balance and manage to regain it. But to your horror you see that, from every hand-shaped tile in the floor, a similar apparition has appeared, and the floor across to the door is now scattered with ghoulish hands, flexing and snatching in the air. You draw your sword and chop at the hand. Resolve this battle':\nHAND                      SKILL 6              STAMINA 4\nIf you win, turn to 185.",
+    "interactions": {
+      "kind": "fight",
+      "enemies": [{ "label": "hand", "skill": 6, "stamina": 4 }],
+      "to": "185"
+    }
+  },
+  "147": {
+    "text": "You leave the room and open the box in the passage. Inside you find a single Piece of Gold and a small mouse, which must have been the creature's pet. You keep the coin and release the mouse, which scurries-off down the passageway. Gain 2 luck points and turn to 208.",
+    "interaction": {
+      "kind": "gotos",
+      "options": [{ "label": "turn page", "to": "208" }]
     }
   },
   "248": {
@@ -54,6 +84,17 @@
       "options": [
         { "label": "open door", "to": "82" },
         { "label": "press on northwards", "to": "208" }
+      ]
+    }
+  },
+  "311": {
+    "text": "The room is completely bare, but the floor is covered in a mosaic of tiles.\nThe passageway ends in a door at which you listen but hear nothing. Trying the handle, you find that the door opens to reveal a large, square room. The room is completely bare, but the floor is covered in a mosaic of tiles. Two shapes stand out on the floor; star-shaped riles and hand-shaped tiles. A door on the opposite wall is the only way through. Will you:\nWalk across the room to the door?\nTurn to 305\nWalk across the room stepping only on stars?\nTurn to 178\nWalk across the room stepping only on hands?\nTurn to 108",
+    "interaction": {
+      "kind": "gotos",
+      "options": [
+        { "label": "Walk across the room to the door", "to": "305" },
+        { "label": "Walk across the room stepping only on stars", "to": "178" },
+        { "label": "Walk across the room stepping only on hands", "to": "108" }
       ]
     }
   }

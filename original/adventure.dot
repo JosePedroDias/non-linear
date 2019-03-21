@@ -5,19 +5,41 @@ digraph {
   1 -> 71 [label="west"]
   1 -> 278 [label="east"]
 
+  33 -> 147 [label="after fight"]
+
   71 -> 301 [label="lucky"]
   71 -> 248 [label="unlucky"]
 
+  82 -> 147 [label="lucky"]
+  82 -> 33 [label="unlucky"]
+
   92 -> 71
 
-  248 -> 301 [label="after fight"]
+  108 -> 185 [label="after fight"]
 
-  278 -> 92
+  147 -> 208
 
   169 -> 400
 
+  185 -> TODO
+
   192 -> 169
+
+  208 -> 397 [label="lucky"]
+  208 -> 363 [label="unlucky"]
+
+  248 -> 301 [label="after fight"]
+
+  278 -> 156 [label="lucky"]
+  278 -> 92 [label="unlucky"]
 
   301 -> 82 [label="open door"]
   301 -> 208 [label="press on northwards"]
+
+  305 -> 162 [label="lucky"]
+  305 -> 108 [label="unlucky"]
+
+  311 -> 305 [label="Walk across the room to the door"]
+  311 -> 178 [label="Walk across the room stepping only on stars"]
+  311 -> 108 [label="Walk across the room stepping only on hands"]
 }

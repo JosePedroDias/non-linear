@@ -16,6 +16,7 @@ fetchAdventure().then((adv) => {
     image.style.display = hasImage ? '' : 'none';
     caption.style.display = hasImage ? '' : 'none';
 
+    interactions.innerHTML = '';
     if (section.interaction) {
       const inter = section.interaction;
       if (inter.kind === 'gotos') {

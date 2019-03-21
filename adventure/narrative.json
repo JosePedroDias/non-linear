@@ -1,0 +1,35 @@
+{
+  "0": {
+    "text": "RUMOURS\nOnly a foolhardy adventurer would embark upon such a perilous quest without first finding out as much as possible about the mountain and its treasures . Before your arrival at the foot of Firetop Mountain, you spent several days with the townsfolk of a local village some two days' journey from the base. Being a likeable sort of person, you found it easy to get on with the local peasants. Although they told many stories about the mysterious Warlock's sanctuary, you could not feel sure that all-or indeed any - of these were based on fact. The villagers had seen many adventurers pass through on their way to the mountain, but very few ever returned. The journey ahead was extremely dangerous, that you knew for certain. Of those who returned to the village, none contemplated going back to Firetop Mountain.\nThere seemed to be some truth in the rumour that the Warlock's treasure was stored in a magnificent chest with two locks, and the keys to these locks were guarded by various creatures within the dungeons. The Warlock himself was a sorcerer of great power. Some described him as old, others as young. Some said his power came from an enchanted deck of cards, others from the silky black gloves that he wore.\nThe entrance to the mountain was guarded by a pack of warty-faced Goblins, stupid creatures, fond of their food and drink. Towards the inner chambers, the creatures became more fearsome. To reach the inner chambers you would have to cross a river. The ferry service was regular, but the ferryman enjoyed a good barter, so you should save a Gold Piece for the trip. The locals also encouraged you to keep a good map of your wanderings, for without a map you would end up hopelessly lost within the mountain.\nWhen it finally came to your day of leaving, the whole village turned out to wish you a safe journey. Tears came to the eyes of many of the women, young and old alike. You couldn't help wondering whether they were tears of sorrow shed by eyes which would never see you alive again...\nNow turn over.",
+    "image": "1.jpg",
+    "caption": "The steep face in front of you looks to have been savaged by the claws of some gargantuan beast.",
+    "interaction": {
+      "kind": "gotos",
+      "options": [{ "label": "turn page", "to": "1" }]
+    }
+  },
+  "1": {
+    "text": "At last your two-day hike is over. You unsheathe your sword, lay it on the ground and sigh with relief as you lower yourself down on to the mossy rocks to sit for a moment's rest. You stretch, rub your eyes and finally look up at Firetop Mountain.\nThe very mountain itself looks menacing. The steep face in front of you looks to have been savaged by the claws of some gargantuan beast. Sharp rocky crags jut out at unnatural angles. At the top of the mountain you can see the eerie red colouring - probably some strange vegetation-which has given the mountain its name. Perhaps no one will ever know exactly what grows up there, as climbing the peak must surely be impossible.\nYour quest lies ahead of you. Across the clearing is a dark cave entrance. You pick up your sword, get to your feet and consider what dangers may lie ahead of you. But with determination, you thrust the sword home into its scabbard and approach the cave.\nYou peer into the gloom to see dark, slimy walls with pools of water on the stone floor in front of you. The air is cold and dank. You light your lantern and step warily into the blackness. Cobwebs brush your face and you hear the scurrying of tiny feet: rats, most likely. You set off into the cave. After a few yards you arrive at a junction. Will you turn west (turn to 71) or east (turn to 278)?",
+    "interaction": {
+      "kind": "gotos",
+      "options": [
+        { "label": "west", "to": "71" },
+        { "label": "east", "to": "278" }
+      ]
+    }
+  },
+  "71": {
+    "text": "As you look in, you can see a strange Goblin-like creature in leather armour asleep at his post.\nThere is a right-hand turn to the north in the passage. Cautiously you approach a sentry post on the corner and, as you look in, you can see a strange Goblin-like creature in leather armour asleep at his post. You try to tiptoe past him. Test your Luck. If you are Lucky, he does not wake up and remains snoring loudly - turn to 301. If you are Unlucky, you step with a crunch on some loose ground and his eyes flick open - turn to 248.",
+    "interaction": {
+      "kind": "luck",
+      "options": ["301", "248"]
+    }
+  },
+  "278": {
+    "text": "The passageway soon comes to an end at a locked wooden door. You listen at the door but hear nothing. Will you try to charge the door down? If so, turn to 156. If you would rather turn round and go back to the junction, turn to 92.",
+    "interaction": {
+      "kind": "gotos",
+      "options": [{ "label": "turn page", "to": "92" }]
+    }
+  }
+}

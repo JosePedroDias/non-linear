@@ -1,0 +1,16 @@
+/* https://dagrejs.github.io/project/dagre-d3/latest/demo/interactive-demo.html */
+digraph {
+  0 -> 1
+
+  1 -> 71 [label="west"]
+  1 -> 278 [label="east"]
+
+  71 -> 301 [label="lucky"]
+  71 -> 248 [label="unlucky"]
+
+  278 -> 92
+
+  169 -> 400
+
+  192 -> 169
+}

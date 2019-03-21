@@ -1,12 +1,13 @@
 function fetchAdventure() {
-  return fetch('adventure/narrative.json5')
-    .then((resp) => resp.text())
-    .then((txt) => {
-      return JSON5.parse(txt);
-    });
+  return fetch('adventure/narrative.json').then((resp) => resp.json());
 }
 
 fetchAdventure().then((adv) => {
+  function testLuck(luckyTo, unluckyTo) {
+    const to = Math.random() < 0.5 ? luckyTo : unluckyTo;
+    doStep(to);
+  }
+
   function doStep(name) {
     const section = adv[name];
     if (!section) {
@@ -26,7 +27,6 @@ fetchAdventure().then((adv) => {
     if (section.interaction) {
       const inter = section.interaction;
       if (inter.kind === 'gotos') {
-        interactions.innerHTML = '';
         inter.options.forEach((opt) => {
           const el = document.createElement('button');
           el.appendChild(document.createTextNode(opt.label));
@@ -35,6 +35,15 @@ fetchAdventure().then((adv) => {
           };
           interactions.appendChild(el);
         });
+      } else if (inter.kind === 'luck') {
+        const el = document.createElement('button');
+        el.appendChild(document.createTextNode('test luck'));
+        el.onclick = function() {
+          testLuck.apply(null, inter.options);
+        };
+        interactions.appendChild(el);
+      } else {
+        window.alert('interaction kind ' + inter.kind + ' unsupported');
       }
     }
   }

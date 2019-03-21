@@ -1,0 +1,16 @@
+.image-wrapper {
+  text-align: center;
+}
+
+.image-wrapper img {
+  max-height: 33vh;
+}
+
+#caption {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#text {
+  font-size: 120%;
+}

@@ -14,3 +14,15 @@
 #text {
   font-size: 120%;
 }
+
+#interactions {
+  text-align: center;
+}
+
+#interactions button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border-width: 0;
+  color: white;
+  background: #448;
+}

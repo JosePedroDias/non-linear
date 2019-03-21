@@ -9,6 +9,9 @@ function fetchAdventure() {
 fetchAdventure().then((adv) => {
   function doStep(name) {
     const section = adv[name];
+    if (!section) {
+      window.alert('SECTION NOT FOUND: ' + name);
+    }
     text.innerHTML = section.text;
     const hasImage = !!section.image;
     caption.innerHTML = section.caption || '';

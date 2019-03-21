@@ -16,7 +16,7 @@ fetchAdventure().then((adv) => {
 
     location.hash = name;
 
-    text.innerHTML = section.text;
+    text.innerHTML = section.text.replace(/\n/g, '<br/>');
     const hasImage = !!section.image;
     caption.innerHTML = section.caption || '';
     image.src = 'adventure/' + section.image || '';
@@ -40,6 +40,13 @@ fetchAdventure().then((adv) => {
         el.appendChild(document.createTextNode('test luck'));
         el.onclick = function() {
           testLuck.apply(null, inter.options);
+        };
+        interactions.appendChild(el);
+      } else if (inter.kind === 'fight') {
+        const el = document.createElement('button');
+        el.appendChild(document.createTextNode('fight'));
+        el.onclick = function() {
+          doStep(inter.interactions.to);
         };
         interactions.appendChild(el);
       } else {

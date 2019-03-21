@@ -7,6 +7,10 @@ function fetchAdventure() {
 }
 
 fetchAdventure().then((adv) => {
-  const section = adv['0'];
-  text.innerHTML = section.text;
+  function doStep(name) {
+    const section = adv[name];
+    text.innerHTML = section.text;
+  }
+
+  doStep('0');
 });

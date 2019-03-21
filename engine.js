@@ -10,8 +10,11 @@ fetchAdventure().then((adv) => {
   function doStep(name) {
     const section = adv[name];
     if (!section) {
-      window.alert('SECTION NOT FOUND: ' + name);
+      return window.alert('SECTION NOT FOUND: ' + name);
     }
+
+    location.hash = name;
+
     text.innerHTML = section.text;
     const hasImage = !!section.image;
     caption.innerHTML = section.caption || '';
@@ -38,5 +41,10 @@ fetchAdventure().then((adv) => {
 
   window.doStep = doStep;
 
-  doStep('0');
+  function onHash() {
+    const hash = (location.hash && location.hash.substring(1)) || '0';
+    doStep(hash);
+  }
+  document.addEventListener('hashchange', onHash);
+  onHash();
 });

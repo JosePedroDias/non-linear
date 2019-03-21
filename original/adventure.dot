@@ -8,9 +8,16 @@ digraph {
   71 -> 301 [label="lucky"]
   71 -> 248 [label="unlucky"]
 
+  92 -> 71
+
+  248 -> 301 [label="after fight"]
+
   278 -> 92
 
   169 -> 400
 
   192 -> 169
+
+  301 -> 82 [label="open door"]
+  301 -> 208 [label="press on northwards"]
 }

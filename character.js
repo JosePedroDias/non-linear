@@ -15,10 +15,13 @@ const createCharacter = (name) => {
   const stamina = rollDices() + 12;
   const luck = rollDie() + 6;
 
+  const potion = window.prompt('Which potion do you like to have (skill, strength, fortune)', 'strength')
+
   return new Character({
     name,
     skill,
     stamina,
+    potion,
     luck
   });
 };
@@ -33,12 +36,26 @@ class Attribute {
     return this.value;
   }
 
+  restore() {
+    this.value = this.initial;
+
+    return this;
+  }
+
   update(inc, force) {
-    if (force || this.value + inc <= this.initial) {
-      this.value += inc;
+    this.value += inc;
+
+    if (!force && this.value > this.initial) {
+      this.value = this.initial;
     }
 
     return this;
+  }
+}
+
+class Potion {
+  constructor(name, hero) {
+
   }
 }
 
@@ -79,11 +96,67 @@ class Creature {
 }
 
 class Character extends Creature {
-  constructor({ luck, ...rest }) {
+  constructor({ luck, potion, ...rest }) {
     super(rest);
 
     this.luck = new Attribute('luck', luck);
+    this.meal = new Attribute('meal', 10);
+
+    switch (potion) {
+      case 'skill':
+        this.drinkPotion = this.drinkPotionOfSkill;
+        break;
+      case 'strength':
+        this.drinkPotion = this.drinkPotionOfStrength;
+        break;
+      case 'fortune':
+        this.drinkPotion = this.drinkPotionOfFortune;
+        break;
+    }
   }
+
+  haveMeals() {
+    return this.meal >= 1;
+  }
+
+  eat(force) {
+    this.meal.update(-1);
+    this.stamina.update(4, force);
+
+    return this;
+  }
+
+  drinkPotionOfSkill() {
+    this.skill.restore();
+
+    delete this.drinkPotion;
+
+    return this;
+  }
+
+  drinkPotionOfStrength() {
+    this.stamina.restore();
+
+    delete this.drinkPotion;
+
+    return this;
+  }
+
+  drinkPotionOfFortune() {
+    this.luck
+      .restore()
+      .update(1, true);
+
+    delete this.drinkPotion;
+
+    return this;
+  }
+  
+  updateMeal(value, force) {
+    this.meal.update(value, force);
+
+    return this;
+  };
   
   updateLuck(value, force) {
     this.luck.update(value, force);
@@ -134,7 +207,7 @@ class Fight {
         callback: () => this.escape()
       }, {
         label: 'Escape (with Lucky)',
-        callback: () => this.escape(tru)
+        callback: () => this.escape(true)
       });
     }
 
@@ -169,13 +242,14 @@ class Fight {
     this.heroStrenght = this.hero.attack();
     this.monsterStrenght = this.monsters[0].attack();
 
-    let label = `Hero Strenght\tMonster Strenght\n${this.heroStrenght}\t\t\t\t${
-      this.monsterStrenght
-    }\n`;
+    let label = `Hero Strenght\tMonster Strenght
+${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
+`;
 
     if (this.heroStrenght === this.monsterStrenght) {
       label += '\nDraw';
       actions.push({
+        label: 'Continue',
         callback: () => this.turn()
       });
     } else {
@@ -224,9 +298,10 @@ class Fight {
 
     if (wounded.stamina >= 1) {
       return {
-        label: `${wounded.name} was damage (${damage}).`,
+        label: `${wounded.name} was wounded (${damage}).`,
         actions: [
           {
+            label: 'Continue',
             callback: () => this.turn()
           }
         ]
@@ -244,9 +319,10 @@ class Fight {
       const monster = this.monsters.shift();
 
       return {
-        label: `You kill ${monster.name}!`,
+        label: `You killed ${monster.name}!`,
         actions: [
           {
+            label: 'Continue',
             callback: () => this.turn()
           }
         ]

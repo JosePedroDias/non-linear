@@ -65,7 +65,9 @@ fetchAdventure().then((adv) => {
     text.innerHTML = section.text.replace(/\n/g, '<br/>');
     const hasImage = !!section.image;
     caption.innerHTML = section.caption || '';
-    image.src = 'adventure/images/' + section.image || '';
+    if (hasImage) {
+      image.src = 'adventure/images/' + section.image || '';
+    }
     image.style.display = hasImage ? '' : 'none';
     caption.style.display = hasImage ? '' : 'none';
 

@@ -159,7 +159,7 @@ Squealing in agony, the Dragon turns its back and leaps into the blackness, flai
 
 
 27
-The sword is enchanted and will aid you in battle. As long as you use this sword, you may increase your Initial skill by 2 points. You may also add 2 points to your current skill value. Add 2 points to your luck for finding this sword. Throw your old sword away and turn to 319. If you would rather keep your own sword, leave your s K1L l as it is and just take the luck bonus.
+The sword is enchanted and will aid you in battle. As long as you use this sword, you may increase your Initial skill by 2 points. You may also add 2 points to your current skill value. Add 2 points to your luck for finding this sword. Throw your old sword away and turn to 319. If you would rather keep your own sword, leave your skill as it is and just take the luck bonus.
 
 
 28
@@ -854,7 +854,7 @@ As you move, the creature's eyes flash open. He sees you and slowly gets to his 
 
 155
 A torch hangs front one wall lighting up a small armoury room stocked with swords, shields, helmets, daggers arid the like.
-The door splits along its length and you can wrench the timbers apart to let yourself in. A torch hangs from one wall lighting up a small armoury room stocked with swords, shields, helmets, daggers, breastplates and the like. You examine the weaponry and find nothing appearing superior to your own sword. However, a circular iron shield with a golden crescent at its centre catches your eye. You pick it up and feel its weight on your arm. If you wish to take this shield it will aid you in battles by helping to fend off wound damage inflicted by a creature on you. If, in future during a battle in which you are using this shield, a creature wounds you, you may throw one die. If you throw a 6, the creature inflicts only i point of damage instead of the normal z. If, for some reason, the creature would normally only inflict 1 point of damage, then a successful roll of 6 would mean that no damage is done. However, the shield is heavy and you will have to leave behind one item of equipment (adjust your Equipment List) to be able to carry it.
+The door splits along its length and you can wrench the timbers apart to let yourself in. A torch hangs from one wall lighting up a small armoury room stocked with swords, shields, helmets, daggers, breastplates and the like. You examine the weaponry and find nothing appearing superior to your own sword. However, a circular iron shield with a golden crescent at its centre catches your eye. You pick it up and feel its weight on your arm. If you wish to take this shield it will aid you in battles by helping to fend off wound damage inflicted by a creature on you. If, in future during a battle in which you are using this shield, a creature wounds you, you may throw one die. If you throw a 6, the creature inflicts only 1 point of damage instead of the normal 2. If, for some reason, the creature would normally only inflict 1 point of damage, then a successful roll of 6 would mean that no damage is done. However, the shield is heavy and you will have to leave behind one item of equipment (adjust your Equipment List) to be able to carry it.
 You now leave the room and continue up the corridor. Turn to 300.
 
 

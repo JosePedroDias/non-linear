@@ -1,4 +1,6 @@
-const rollDie = (sides = 6) => 1 + Math.floor(sides * Math.random());
+const dices = document.getElementById('dices');
+
+const rollDie = (sides = 6) => dices.innerHtml = 1 + Math.floor(sides * Math.random());
 
 const rollDices = (diceCounts = 2, sides) => {
   let sum = 0;
@@ -7,10 +9,10 @@ const rollDices = (diceCounts = 2, sides) => {
     sum += rollDie(sides);
   }
 
-  return sum;
+  return dices.innerHtml = sum;
 };
 
-const createCharacter = (name) => {
+function createCharacter(name) {
   const skill = rollDie() + 6;
   const stamina = rollDices() + 12;
   const luck = rollDie() + 6;
@@ -25,6 +27,24 @@ const createCharacter = (name) => {
     luck
   });
 };
+
+function createPotion(name, hero) {
+  let potion;
+
+  switch (name) {
+    case 'skill':
+      potion = PotionOfSkill;
+      break;
+    case 'strength':
+      potion = PotionOfStrength;
+      break;
+    case 'fortune':
+      potion = PotionOfFortune;
+      break;
+  }
+
+  return new potion(name, hero);
+}
 
 class Attribute {
   constructor(name, value) {
@@ -55,8 +75,74 @@ class Attribute {
 
 class Potion {
   constructor(name, hero) {
-
+    this.name = name;
+    this.hero = hero;
+    this.portion = 2;
   }
+
+  toString() {
+    return `${this.name}: ${this.portion}`;
+  }
+
+  drink() {
+    this.portion--;
+  }
+}
+
+class PotionOfSkill extends Potion {
+  drink() {
+    super.drink();
+
+    this.hero.skill.restore();
+  }
+}
+
+class PotionOfStrength extends Potion {
+  drink() {
+    super.drink();
+
+    this.hero.stamina.restore();
+  }
+}
+
+class PotionOfFortune extends Potion {
+  drink() {
+    super.drink();
+
+    this.hero.luck.restore();
+    this.hero.luck.update(1, true);
+  }
+}
+
+class Equipment {
+  constructor({ type, skill = 0, stamina = 0, luck = 0, bind }) {
+    this.type = type;
+    this.skill = skill;
+    this.stamina = stamina;
+    this.luck = luck;
+    this.bind = bind;
+  }
+
+  equip(hero) {
+    hero.skill.update(this.skill);
+    hero.stamina.update(this.stamina);
+    hero.luck.update(this.luck);
+
+    return this;
+  }
+
+  unequip(hero) {
+    hero.skill.update(-this.skill);
+    hero.stamina.update(-this.stamina);
+    hero.luck.update(-this.luck);
+  }
+}
+
+const equipments = {
+  circularIronShield: new Equipment({ type: 'shield' }),
+  bronzeHelmet: new Equipment({ type: 'helmet', skill: -1, bind: true }),
+  ironHelmet: new Equipment({ type: 'helmet' }),
+  gleamingSword: new Equipment({ type: 'weapon', skill: 1 })
 }
 
 class Creature {
@@ -102,17 +188,50 @@ class Character extends Creature {
     this.luck = new Attribute('luck', luck);
     this.meal = new Attribute('meal', 10);
 
-    switch (potion) {
-      case 'skill':
-        this.drinkPotion = this.drinkPotionOfSkill;
-        break;
-      case 'strength':
-        this.drinkPotion = this.drinkPotionOfStrength;
-        break;
-      case 'fortune':
-        this.drinkPotion = this.drinkPotionOfFortune;
-        break;
+    this.potion = createPotion(potion, this);
+
+    this.gold = new Attribute('gold', 0);
+
+    this.items = {};
+    this.keys = {};
+  }
+
+  equipItem(equipment) {
+    const { type } = equipment;
+
+    if (this[type]) {
+      if (this[type].bind) { return; }
+
+      this[type].unequip(this);
     }
+
+    this[type] = equipment.equip(this);
+  }
+
+  haveItem(name) {
+    return name in this.items;
+  }
+
+  useItem(name) {
+    delete this.items[name];
+
+    return this;  
+  }
+
+  takeItem(name) {
+    this.items[name] = true;
+
+    return this;
+  }
+
+  haveKeys(name) {
+    return name in this.keys;
+  }
+
+  takeKey(name) {
+    this.keys[name] = true;
+
+    return this;
   }
 
   haveMeals() {
@@ -126,46 +245,42 @@ class Character extends Creature {
     return this;
   }
 
-  drinkPotionOfSkill() {
-    this.skill.restore();
-
-    delete this.drinkPotion;
-
-    return this;
-  }
-
-  drinkPotionOfStrength() {
-    this.stamina.restore();
-
-    delete this.drinkPotion;
-
-    return this;
-  }
-
-  drinkPotionOfFortune() {
-    this.luck
-      .restore()
-      .update(1, true);
-
-    delete this.drinkPotion;
-
-    return this;
-  }
-  
   updateMeal(value, force) {
     this.meal.update(value, force);
 
     return this;
   };
-  
+
+  havePotion() {
+    return this.potion.portion > 0;
+  }
+
+  drinkPotion() {
+    this.potion.drink();
+  }
+
+  haveEnoughGold(amount) {
+    return this.gold >= amount;
+  }
+
+  updateGold(value) {
+    this.gold.update(value, true);
+
+    return this;
+  };
+
+  attack(skillModifier = 0) {
+    return rollDices() + this.skill + skillModifier;
+  }
+
   updateLuck(value, force) {
     this.luck.update(value, force);
 
     return this;
   };
 
-  testLuck() {
-    const wasLucky = rollDices() <= this.luck;
+  testLuck(luckModifier) {
+    const wasLucky = rollDices() + luckModifier <= this.luck;
 
     this.updateLuck(-1);
 
@@ -178,14 +293,28 @@ class Character extends Creature {
 }
 
 class Fight {
-  constructor(hero, monsters, canEscape = true) {
+  constructor({
+    hero,
+    monsters,
+    canEscape = true,
+    section,
+    modifiers: {
+      skill = 0,
+      luck = 0
+    } = {}
+  }) {
     this.hero = hero;
     this.monsters = monsters;
     this.canEscape = canEscape;
+    this.section = section;
+    this.modifiers = {
+      skill: skill + ~~(hero.helmet === equipments.ironHelmet),
+      luck
+    };
   }
 
   turn() {
-    let label = `${this.hero}\n\n`;
+    let label;
     const actions = [
       {
         label: 'Fight',
@@ -194,9 +323,9 @@ class Fight {
     ];
 
     if (this.monsters.length === 1) {
-      label += this.monsters[0].toString();
+      label = this.monsters[0].toString();
     } else {
-      label += `\t\tSKILL\t\tSTAMINA\n${this.monsters
+      label = `\t\tSKILL\t\tSTAMINA\n${this.monsters
         .map((monster) => monster.toSimpleString())
         .join('\n')}`;
     }
@@ -218,7 +347,7 @@ class Fight {
     let damage = 2;
 
     if (testLuck) {
-      damage += this.hero.testLuck() ? -1 : 1;
+      damage += this.hero.testLuck(this.modifiers.luck) ? -1 : 1;
     }
 
     this.hero.updateStamina(-damage);
@@ -239,7 +368,7 @@ class Fight {
   attack() {
     const actions = [];
 
-    this.heroStrenght = this.hero.attack();
+    this.heroStrenght = this.hero.attack(this.modifiers.skill);
     this.monsterStrenght = this.monsters[0].attack();
 
     let label = `Hero Strenght\tMonster Strenght
@@ -270,18 +399,22 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
   };
 
   damage(testLuck) {
-    let wounded;
     let damage = 2;
     let wasLucky;
+    let wounded;
 
     if (testLuck) {
-      wasLucky = this.hero.testLuck();
+      wasLucky = this.hero.testLuck(this.modifiers.luck);
     }
 
     const monsterWounded = this.heroStrenght > this.monsterStrenght;
 
     if (monsterWounded) {
       wounded = this.monsters[0];
+
+      if (this.section === 39) {
+        damage += 1;
+      }
 
       if (wasLucky !== undefined) {
         damage += wasLucky ? 2 : -1;
@@ -292,13 +425,29 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
       if (wasLucky !== undefined) {
         damage += wasLucky ? -1 : 1;
       }
+
+      if (hero.shield === equipments.circularIronShield && rollDie() === 6) {
+        damage -= 1;
+      }
+
+      if (this.section === 39) {
+        const die = rollDie();
+
+        if (die === 6) {
+          damage = 0;
+        } else if (die === 2 || die === 4) {
+          damage -= 1;
+        }
+      }
     }
 
-    wounded.updateStamina(-damage);
+    if (damage > 0) {
+      wounded.updateStamina(-damage);
+    }
 
     if (wounded.stamina >= 1) {
       return {
-        label: `${wounded.name} was wounded (${damage}).`,
+        label: `${wounded.name} ${damage > 0 ? `was wounded (${damage}).` : 'parry the blow'}`,
         actions: [
           {
             label: 'Continue',

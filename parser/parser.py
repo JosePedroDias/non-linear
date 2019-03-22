@@ -1,6 +1,11 @@
 import sys
 import json
 import re
+from os import listdir
+from os.path import isfile, join
+
+images_path = '../adventure'
+image_files = [f for f in listdir(images_path) if isfile(join(images_path, f)) and '.jpg' in f]
 
 def isNumberedSection(line):
     try: 
@@ -9,8 +14,8 @@ def isNumberedSection(line):
     except:
         return False
 
-def processContent(section_content):
-    turn_to_rgx = 'urn to ([0-9]*)'
+def processContent(section_content, section_number):
+    turn_to_rgx = 'urn to (\d+)'
     luck_str = 'Test your Luck'
 
     target_sections = list(set(re.findall(turn_to_rgx, section_content)))
@@ -28,13 +33,16 @@ def processContent(section_content):
     }
 
     if(len(target_sections) or is_luck_section):
-        processedSection['interactions'] = {
+        processedSection['interaction'] = {
             'kind': 'luck' if is_luck_section else 'gotos',
             'options': options
         }
 
-    return processedSection
+    image_file = str(section_number) + '.jpg'
+    if image_file in image_files:
+        processedSection['image'] = image_file
 
+    return processedSection
 
 data = {}
 
@@ -53,7 +61,7 @@ try:
             section_number+=1
         else:
             section_content += line
-        content = processContent(section_content)
+        content = processContent(section_content, section_number)
         data[section_number] = content
         previous_line = line
 

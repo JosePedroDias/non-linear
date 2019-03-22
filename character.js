@@ -112,30 +112,30 @@ class Fight {
   }
 
   turn() {
-    let text = `${this.hero}\n\n`;
+    let label = `${this.hero}\n\n`;
     const actions = [
       {
-        text: 'Fight',
+        label: 'Fight',
         callback: () => this.attack()
       }
     ];
 
     if (this.monsters.length === 1) {
-      text += this.monsters[0].toString();
+      label += this.monsters[0].toString();
     } else {
-      text += `\t\tSKILL\t\tSTAMINA\n${this.monsters
+      label += `\t\tSKILL\t\tSTAMINA\n${this.monsters
         .map((monster) => monster.toSimpleString())
         .join('\n')}`;
     }
 
     if (this.canEscape) {
       actions.push({
-        text: 'Escape',
+        label: 'Escape',
         escape: true
       });
     }
 
-    return { actions, text };
+    return { actions, label };
   };
 
   attack() {
@@ -144,30 +144,30 @@ class Fight {
     this.heroStrenght = this.hero.attack();
     this.monsterStrenght = this.monsters[0].attack();
 
-    let text = `Hero Strenght\tMonster Strenght\n${this.heroStrenght}\t\t\t\t${
+    let label = `Hero Strenght\tMonster Strenght\n${this.heroStrenght}\t\t\t\t${
       this.monsterStrenght
     }\n`;
 
     if (this.heroStrenght === this.monsterStrenght) {
-      text += '\nDraw';
+      label += '\nDraw';
       actions.push({
         callback: () => this.turn()
       });
     } else {
-      text += '\nDo you want to Test your Luck?';
+      label += '\nDo you want to Test your Luck?';
       actions.push(
         {
           callback: () => this.damage(true),
-          text: 'Yes'
+          label: 'Yes'
         },
         {
           callback: () => this.damage(),
-          text: 'No'
+          label: 'No'
         }
       );
     }
 
-    return { actions, text };
+    return { actions, label };
   };
 
   damage(testLuck) {
@@ -199,7 +199,7 @@ class Fight {
 
     if (wounded.stamina >= 1) {
       return {
-        text: `${wounded.name} was damage (${damage}).`,
+        label: `${wounded.name} was damage (${damage}).`,
         actions: [
           {
             callback: () => this.turn()
@@ -211,7 +211,7 @@ class Fight {
     if (monsterWounded) {
       if (this.monsters.length === 1) {
         return {
-          text: 'You WIN!',
+          label: 'You WIN!',
           alive: true
         };
       }
@@ -219,7 +219,7 @@ class Fight {
       const monster = this.monsters.shift();
 
       return {
-        text: `You kill ${monster.name}!`,
+        label: `You kill ${monster.name}!`,
         actions: [
           {
             callback: () => this.turn()
@@ -229,7 +229,7 @@ class Fight {
     }
 
     return {
-      text: 'GAME OVER!',
+      label: 'GAME OVER!',
       alive: false
     };
   }

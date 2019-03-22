@@ -1,0 +1,20 @@
+gotos:
+
+fights:
+
+inventory:
+
+luck:
+
+hard ones:
+155
+
+17 lucky and something else
+198 lucky without target
+
+140 -> by hand
+
+
+
+modifier:
+39

@@ -2,6 +2,10 @@ function fetchAdventure() {
   return fetch('adventure/narrative.json').then((resp) => resp.json());
 }
 
+function htmlify(txt) {
+  return txt.replace(/\n/gm, '<br />').replace(/\t/g, '    ');
+}
+
 fetchAdventure().then((adv) => {
   const hero = createCharacter(
     window.prompt("What is your character's name?", 'hero')
@@ -12,6 +16,41 @@ fetchAdventure().then((adv) => {
   }
 
   updateHero();
+
+  function doFight(inter) {
+    const monsters = inter.enemies.map((en) => new Creature(en));
+    const fight = new Fight(hero, monsters);
+    let outcome;
+
+    outcome = fight.turn(); // text:string, actions:[Obj], escape:bool, alive:bool
+
+    function doSubStep() {
+      details.innerHTML = htmlify(outcome.label);
+      console.log(outcome);
+
+      interactions.innerHTML = '';
+      if (outcome.actions) {
+        outcome.actions.forEach((act) => {
+          const el = document.createElement('button');
+          el.appendChild(document.createTextNode(act.label));
+          el.onclick = function() {
+            outcome = act.callback();
+            doSubStep();
+          };
+          interactions.appendChild(el);
+        });
+      } else if (outcome.alive) {
+        const el = document.createElement('button');
+        el.appendChild(document.createTextNode('turn page'));
+        el.onclick = function() {
+          doStep(inter.to);
+        };
+        interactions.appendChild(el);
+      }
+    }
+
+    doSubStep();
+  }
 
   function doStep(name) {
     const section = adv[name];
@@ -24,7 +63,7 @@ fetchAdventure().then((adv) => {
     text.innerHTML = section.text.replace(/\n/g, '<br/>');
     const hasImage = !!section.image;
     caption.innerHTML = section.caption || '';
-    image.src = 'adventure/' + section.image || '';
+    image.src = 'adventure/images/' + section.image || '';
     image.style.display = hasImage ? '' : 'none';
     caption.style.display = hasImage ? '' : 'none';
 
@@ -46,16 +85,12 @@ fetchAdventure().then((adv) => {
         el.onclick = function() {
           const wasLucky = hero.testLuck();
           const [luckyTo, unLuckyTo] = inter.options;
+          updateHero();
           doStep(wasLucky ? luckyTo : unluckyTo);
         };
         interactions.appendChild(el);
       } else if (inter.kind === 'fight') {
-        const el = document.createElement('button');
-        el.appendChild(document.createTextNode('fight'));
-        el.onclick = function() {
-          doStep(inter.interactions.to);
-        };
-        interactions.appendChild(el);
+        doFight(inter);
       } else {
         window.alert('interaction kind ' + inter.kind + ' unsupported');
       }

@@ -131,12 +131,37 @@ class Fight {
     if (this.canEscape) {
       actions.push({
         label: 'Escape',
-        escape: true
+        callback: () => this.escape()
+      }, {
+        label: 'Escape (with Lucky)',
+        callback: () => this.escape(tru)
       });
     }
 
     return { actions, label };
   };
+
+  escape(testLuck) {
+    let damage = 2;
+
+    if (testLuck) {
+      damage += this.hero.testLuck() ? -1 : 1;
+    }
+
+    this.hero.updateStamina(-damage);
+
+    if (this.hero.stamina >= 1) {
+      return {
+        label: `You escape but took ${damage} damage.`,
+        escape: true
+      };
+    }
+
+    return {
+      label: 'GAME OVER!',
+      alive: false
+    };
+  }
 
   attack() {
     const actions = [];

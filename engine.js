@@ -25,6 +25,8 @@ fetchAdventure().then((adv) => {
     outcome = fight.turn(); // text:string, actions:[Obj], escape:bool, alive:bool
 
     function doSubStep() {
+      updateHero();
+
       details.innerHTML = htmlify(outcome.label);
       console.log(outcome);
 

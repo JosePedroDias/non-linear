@@ -13,8 +13,9 @@ hard ones:
 198 lucky without target
 
 140 -> by hand
-
-
+161
+163
+17
 
 modifier:
 39

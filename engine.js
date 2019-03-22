@@ -1,5 +1,5 @@
 function fetchAdventure() {
-  return fetch('adventure/narrative.json').then((resp) => resp.json());
+  return fetch('adventure/scenes.json').then((resp) => resp.json());
 }
 
 function htmlify(txt) {

@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import sys
 import json
 import re
@@ -19,10 +21,14 @@ def isMultiEnemiesFightSection(section):
         return False
     return 'SKILL\r\nSTAMINA' in section['text']
 
+def SingularEnemyFight(section):
+    if 'text' not in section.keys():
+        return False
+    return re.search(r'.*SKILL.*STAMINA.*', section['text'])
+
 def processFight(section):
-    print section
+    enemies = []
     if isMultiEnemiesFightSection(section):
-        enemies = []
         lines = section['text'].split('\n')
         stamina_line = lines.index('STAMINA\r')
         for i in range(stamina_line+1, len(lines), 3):
@@ -51,9 +57,41 @@ def processFight(section):
             }
              
         section['interaction'] = interaction
-
-    else:
-        return
+    
+    elif SingularEnemyFight(section):
+        result = re.search('(.*)SKILL(.*)STAMINA(.*)', section['text'])
+        name =  result.group(1).strip()
+        skill = result.group(2).strip()
+        stamina =  result.group(3).strip()
+        enemy_obj = {
+            'name': name,
+            'skill': skill,
+            'stamina': stamina,
+        }
+        enemies.append(enemy_obj)
+        
+        if 'interaction' in section:
+            if type(section['interaction']['options']) is list:
+                interaction =  {
+                    'kind': 'fight',
+                    'enemies': enemies,
+                    'to': section['interaction']['options']
+                }
+            else:
+                interaction =  {
+                    'kind': 'fight',
+                    'enemies': enemies,
+                    'to': section['interaction']['options'][0]['to']
+                }
+             
+        else:
+            interaction =  {
+                'kind': 'fight',
+                'enemies': enemies,
+                'to': 'back'
+            }
+             
+        section['interaction'] = interaction
 
 
 def processContent(section_content, section_number):

@@ -8,9 +8,9 @@ const rollDices = (diceCounts = 2, sides) => {
   }
 
   return sum;
-}
+};
 
-export const createCharacter = (name) => {
+const createCharacter = (name) => {
   const skill = rollDie() + 6;
   const stamina = rollDices() + 12;
   const luck = rollDie() + 6;
@@ -21,7 +21,7 @@ export const createCharacter = (name) => {
     stamina,
     luck
   });
-}
+};
 
 class Attribute {
   constructor(name, value) {
@@ -33,7 +33,7 @@ class Attribute {
     return this.value;
   }
 
-  update = (inc, force) => {
+  update(inc, force) {
     if (force || this.value + inc <= this.initial) {
       this.value += inc;
     }
@@ -42,7 +42,7 @@ class Attribute {
   }
 }
 
-export class Creature {
+class Creature {
   constructor({ name, skill, stamina }) {
     this.name = name;
     this.skill = new Attribute('skill', skill);
@@ -53,17 +53,17 @@ export class Creature {
     return rollDices() + this.skill;
   }
 
-  updateSkill = (value, force) => {
+  updateSkill(value, force) {
     this.skill.update(value, force);
 
     return this;
-  }
+  };
 
-  updateStamina = (value, force) => {
+  updateStamina(value, force) {
     this.stamina.update(value, force);
 
     return this;
-  }
+  };
 
   toString() {
     const { name, skill, stamina } = this;
@@ -84,90 +84,99 @@ class Character extends Creature {
 
     this.luck = new Attribute('luck', luck);
   }
-
-  updateLuck = (value, force) => {
+  
+  updateLuck(value, force) {
     this.luck.update(value, force);
 
     return this;
-  }
+  };
 
   testLuck() {
-    const isLucky = rollDices() <= this.luck;
+    const wasLucky = rollDices() <= this.luck;
 
     this.updateLuck(-1);
 
-    return isLucky;
+    return wasLucky;
   }
 
   toString() {
     return `${super.toString()}\tLUCK ${this.luck}`;
   }
-};
+}
 
-export class Fight {
+class Fight {
   constructor(hero, monsters, canEscape = true) {
     this.hero = hero;
     this.monsters = monsters;
     this.canEscape = canEscape;
   }
 
-  turn = () => {
+  turn() {
     let text = `${this.hero}\n\n`;
-    const actions = [{
-      text: 'Fight',
-      callback: this.attack
-    }];
+    const actions = [
+      {
+        text: 'Fight',
+        callback: () => this.attack()
+      }
+    ];
 
     if (this.monsters.length === 1) {
       text += this.monsters[0].toString();
     } else {
-      text += `\t\tSKILL\t\tSTAMINA\n${this.monsters.map((monster) => monster.toSimpleString()).join('\n')}`;
+      text += `\t\tSKILL\t\tSTAMINA\n${this.monsters
+        .map((monster) => monster.toSimpleString())
+        .join('\n')}`;
     }
 
     if (this.canEscape) {
       actions.push({
         text: 'Escape',
-        escape: true,
+        escape: true
       });
     }
 
     return { actions, text };
-  }
+  };
 
-  attack = () => {
+  attack() {
     const actions = [];
 
     this.heroStrenght = this.hero.attack();
     this.monsterStrenght = this.monsters[0].attack();
 
-    let text = `Hero Strenght\tMonster Strenght\n${this.heroStrenght}\t\t\t\t${this.monsterStrenght}\n`;
+    let text = `Hero Strenght\tMonster Strenght\n${this.heroStrenght}\t\t\t\t${
+      this.monsterStrenght
+    }\n`;
 
     if (this.heroStrenght === this.monsterStrenght) {
       text += '\nDraw';
       actions.push({
-        callback: this.turn
+        callback: () => this.turn()
       });
     } else {
       text += '\nDo you want to Test your Luck?';
-      actions.push({
-        callback: () => this.damage(true),
-        text: 'Yes'
-      }, {
-        callback: () => this.damage(),
-        text: 'No'
-      });
+      actions.push(
+        {
+          callback: () => this.damage(true),
+          text: 'Yes'
+        },
+        {
+          callback: () => this.damage(),
+          text: 'No'
+        }
+      );
     }
 
     return { actions, text };
-  }
+  };
 
   damage(testLuck) {
     let wounded;
     let damage = 2;
-    let isLucky;
-    
+    let wasLucky;
+
     if (testLuck) {
-      isLucky = this.hero.testLuck();
+      wasLucky = this.hero.testLuck();
     }
 
     const monsterWounded = this.heroStrenght > this.monsterStrenght;
@@ -175,14 +184,14 @@ export class Fight {
     if (monsterWounded) {
       wounded = this.monsters[0];
 
-      if (isLucky !== undefined) {
-        damage += isLucky ? 2 : -1;
+      if (wasLucky !== undefined) {
+        damage += wasLucky ? 2 : -1;
       }
     } else {
       wounded = this.hero;
 
-      if (isLucky !== undefined) {
-        damage += isLucky ? -1 : 1;
+      if (wasLucky !== undefined) {
+        damage += wasLucky ? -1 : 1;
       }
     }
 
@@ -191,9 +200,11 @@ export class Fight {
     if (wounded.stamina >= 1) {
       return {
         text: `${wounded.name} was damage (${damage}).`,
-        actions: [{
-          callback: this.turn
-        }]
+        actions: [
+          {
+            callback: () => this.turn()
+          }
+        ]
       };
     }
 
@@ -209,9 +220,11 @@ export class Fight {
 
       return {
         text: `You kill ${monster.name}!`,
-        actions: [{
-          callback: this.turn
-        }]
+        actions: [
+          {
+            callback: () => this.turn()
+          }
+        ]
       };
     }
 

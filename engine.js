@@ -3,10 +3,15 @@ function fetchAdventure() {
 }
 
 fetchAdventure().then((adv) => {
-  function testLuck(luckyTo, unluckyTo) {
-    const to = Math.random() < 0.5 ? luckyTo : unluckyTo;
-    doStep(to);
+  const hero = createCharacter(
+    window.prompt("What is your character's name?", 'hero')
+  );
+
+  function updateHero() {
+    heroStats.innerHTML = '' + hero;
   }
+
+  updateHero();
 
   function doStep(name) {
     const section = adv[name];
@@ -39,7 +44,9 @@ fetchAdventure().then((adv) => {
         const el = document.createElement('button');
         el.appendChild(document.createTextNode('test luck'));
         el.onclick = function() {
-          testLuck.apply(null, inter.options);
+          const wasLucky = hero.testLuck();
+          const [luckyTo, unLuckyTo] = inter.options;
+          doStep(wasLucky ? luckyTo : unluckyTo);
         };
         interactions.appendChild(el);
       } else if (inter.kind === 'fight') {

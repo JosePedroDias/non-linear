@@ -22,7 +22,7 @@
     "text": "The sleeping creature awakens startled. He jumps up and rushes at you, unarmed. With your sword you should be able to defeat him, but his sharp teeth look rather vicious. You may Escape through the door (turn to 320) or stand and fight the ORC who is attacking you.\nORC                        SKILL 6              STAMINA 4\nIf you defeat the creature, you may take the box. Turn to 147.",
     "interaction": {
       "kind": "fight",
-      "enemies": [{ "label": "orc", "skill": 6, "stamina": "4" }],
+      "enemies": [{ "name": "orc", "skill": 6, "stamina": "4" }],
       "to": "147"
     }
   },
@@ -49,9 +49,9 @@
   },
   "108": {
     "text": "The moment your foot touches a hand tile, you feel a vice-like grip on your ankle and look down to see a ghostly white hand gripping your leg. You fight for your balance and manage to regain it. But to your horror you see that, from every hand-shaped tile in the floor, a similar apparition has appeared, and the floor across to the door is now scattered with ghoulish hands, flexing and snatching in the air. You draw your sword and chop at the hand. Resolve this battle':\nHAND                      SKILL 6              STAMINA 4\nIf you win, turn to 185.",
-    "interactions": {
+    "interaction": {
       "kind": "fight",
-      "enemies": [{ "label": "hand", "skill": 6, "stamina": 4 }],
+      "enemies": [{ "name": "hand", "skill": 6, "stamina": 4 }],
       "to": "185"
     }
   },
@@ -64,7 +64,7 @@
   },
   "248": {
     "text": "The creature that has just awakened is an ORC! He scrambles to his feet and turns to grasp at a rope which is probably the alarm bell. You must attack him quickly.\nORC                          SKILL 6               STAMINA 5\nIf you defeat him, you may continue up the passage - turn to 301.",
-    "interactions": {
+    "interaction": {
       "kind": "fight",
       "enemies": [{ "label": "orc", "skill": 6, "stamina": 5 }],
       "to": "301"

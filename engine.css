@@ -15,6 +15,11 @@
   font-size: 120%;
 }
 
+#details {
+  font-family: monospace;
+  margin: 10px 0;
+}
+
 #interactions {
   text-align: center;
 }

@@ -58,7 +58,8 @@ body {
   margin-bottom: 10px;
 }
 
-#text {
+#text,
+#details {
   font-size: 120%;
   margin: 0 auto;
   width: 100%;
@@ -81,7 +82,14 @@ body {
 
 #details {
   font-family: monospace;
-  margin: 10px 0;
+  margin-top: 1rem;
+  padding: .5rem 2rem;
+  border: 1px solid #000;
+}
+
+.details__opponent {
+  font-weight: 700;
+  font-size: 1.5rem;
 }
 
 #interactions {
@@ -332,7 +340,8 @@ body {
 }
 
 @media (min-width: 720px) {
-  #text {
+  #text,
+  #details {
     width: calc(100% - 14rem);
   }
 
@@ -367,6 +376,10 @@ body {
   #text {
     max-width: 520px;
     padding: 0;
+  }
+
+  #details {
+    max-width: 520px;
   }
 
   .hero-stats__stat--stamina {

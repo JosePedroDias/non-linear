@@ -348,7 +348,6 @@ class Fight {
   }
 
   turn() {
-    let label;
     const actions = this.beatEmUp
       ? this.monsters.map((monster, index) => ({
           label: `Fight ${monster.name}`,
@@ -360,14 +359,6 @@ class Fight {
             callback: async () => await this.attack()
           }
         ];
-
-    if (this.monsters.length === 1) {
-      label = this.monsters[0].toString();
-    } else {
-      label = `\t\tSKILL\t\tSTAMINA\n${this.monsters
-        .map((monster) => monster.toSimpleString())
-        .join('\n')}`;
-    }
 
     if (this.canEscape) {
       actions.push(
@@ -382,7 +373,7 @@ class Fight {
       );
     }
 
-    return { actions, label };
+    return { actions, label: '' };
   }
 
   async escape(testLuck) {
@@ -410,21 +401,28 @@ class Fight {
   async attack() {
     const actions = [];
 
-    this.heroStrenght = await this.hero.attack(this.modifiers.skill);
-    this.monsterStrenght = await this.monsters[0].attack();
+    this.heroStrength = await this.hero.attack(this.modifiers.skill);
+    this.monsterStrength = await this.monsters[0].attack();
 
-    let label = `Hero Strength\tMonster Strength (${this.monsters[0].name})
-${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
-`;
+    let label = `<div class="fight">
+  <div class="hero">
+    <span class="fight__name">Hero Strength</span>
+    <span class="fight__strength${this.heroStrength > this.monsterStrength ? ' fight__strength--victor' : ''}">${this.heroStrength}</span>
+  </div>
+  <div class="enemy">
+    <span class="fight__name">Monster Strength (${this.monsters[0].name})</span>
+    <span class="fight__strength${this.monsterStrength > this.heroStrength ? ' fight__strength--victor' : ''}">${this.monsterStrength}</span>
+  </div>
+</div>`;
 
-    if (this.heroStrenght === this.monsterStrenght) {
-      label += '\nDraw';
+    if (this.heroStrength === this.monsterStrength) {
+      label += '<div class="fight__result">Draw</div>';
       actions.push({
         label: 'Continue',
         callback: () => this.turn()
       });
     } else {
-      label += '\nDo you want to Test your Luck?';
+      label += '<div class="fight__result">Do you want to Test your Luck?</div>';
       actions.push(
         {
           callback: async () => await this.damage(true),
@@ -449,7 +447,7 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
       wasLucky = await this.hero.testLuck(this.modifiers.luck);
     }
 
-    const monsterWounded = this.heroStrenght > this.monsterStrenght;
+    const monsterWounded = this.heroStrength > this.monsterStrength;
 
     if (monsterWounded) {
       wounded = this.monsters[0];
@@ -492,9 +490,9 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
 
     if (wounded.stamina >= 1) {
       return {
-        label: `${wounded.name} ${
+        label: `<div>${wounded.name} ${
           damage > 0 ? `was wounded (${damage}).` : 'parry the blow'
-        }`,
+        }</div>`,
         actions: [
           {
             label: 'Continue',
@@ -507,7 +505,7 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
     if (monsterWounded) {
       if (this.monsters.length === 1) {
         return {
-          label: 'You WIN!',
+          label: '<div>You WIN!</div>',
           alive: true
         };
       }
@@ -515,7 +513,7 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
       const monster = this.monsters.shift();
 
       return {
-        label: `You killed ${monster.name}!`,
+        label: `<div>You killed ${monster.name}!</div>`,
         actions: [
           {
             label: 'Continue',
@@ -526,7 +524,7 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
     }
 
     return {
-      label: 'GAME OVER!',
+      label: '<div class="GAME_OVER">GAME OVER!</div>',
       alive: false
     };
   }
@@ -534,15 +532,22 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
   async attackMob(attackedIndex, index = 0, skipWoundMonster) {
     const actions = [];
 
-    this.heroStrenght = await this.hero.attack(this.modifiers.skill);
-    this.monsterStrenght = await this.monsters[index].attack();
+    this.heroStrength = await this.hero.attack(this.modifiers.skill);
+    this.monsterStrength = await this.monsters[index].attack();
 
-    let label = `Hero Strenght\tMonster Strenght (${this.monsters[index].name})
-${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
-`;
+    let label = `<div class="fight">
+  <div class="hero">
+    <span class="fight__name">Hero Strength</span>
+    <span class="fight__strength${this.heroStrength > this.monsterStrength ? ' fight__strength--victor' : ''}">${this.heroStrength}</span>
+  </div>
+  <div class="enemy">
+    <span class="fight__name">Monster Strength (${this.monsters[index].name})</span>
+    <span class="fight__strength${this.monsterStrength > this.heroStrength ? ' fight__strength--victor' : ''}">${this.monsterStrength}</span>
+  </div>
+</div>`;
 
-    if (this.heroStrenght === this.monsterStrenght) {
-      label += '\nDraw';
+    if (this.heroStrength === this.monsterStrength) {
+      label += '<div class="fight__result">Draw</div>';
       actions.push({
         label: 'Continue',
         callback:
@@ -551,7 +556,7 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
             : async () => await this.attackMob(attackedIndex, ++index)
       });
     } else if (
-      this.heroStrenght > this.monsterStrenght &&
+      this.heroStrength > this.monsterStrength &&
       (attackedIndex !== index || skipWoundMonster)
     ) {
       actions.push({
@@ -562,7 +567,7 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
             : async () => await this.attackMob(attackedIndex, ++index)
       });
     } else {
-      label += '\nDo you want to Test your Luck?';
+      label += '<div class="fight__result">Do you want to Test your Luck?</div>';
       actions.push(
         {
           callback: async () =>
@@ -588,7 +593,7 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
       wasLucky = await this.hero.testLuck(this.modifiers.luck);
     }
 
-    const monsterWounded = this.heroStrenght > this.monsterStrenght;
+    const monsterWounded = this.heroStrength > this.monsterStrength;
 
     if (monsterWounded) {
       wounded = this.monsters[index];
@@ -631,9 +636,9 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
 
     if (wounded.stamina >= 1) {
       return {
-        label: `${wounded.name} ${
+        label: `<div>${wounded.name} ${
           damage > 0 ? `was wounded (${damage}).` : 'parry the blow'
-        }`,
+        }</div>`,
         actions: [
           {
             label: 'Continue',
@@ -649,7 +654,7 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
     if (monsterWounded) {
       if (this.monsters.length === 1) {
         return {
-          label: 'You WIN!',
+          label: '<div>You WIN!</div>',
           alive: true
         };
       }
@@ -657,7 +662,7 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
       const [monster] = this.monsters.splice(attackedIndex, 1);
 
       return {
-        label: `You killed ${monster.name}!`,
+        label: `<div>You killed ${monster.name}!</div>`,
         actions: [
           {
             label: 'Continue',
@@ -671,7 +676,7 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
     }
 
     return {
-      label: 'GAME OVER!',
+      label: '<div class="GAME_OVER">GAME OVER!</div>',
       alive: false
     };
   }

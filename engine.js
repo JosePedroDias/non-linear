@@ -2,6 +2,13 @@ function fetchAdventure() {
   return fetch('adventure/scenes.json').then((resp) => resp.json());
 }
 
+function monster2html(monster) {
+  return `<div class="details__opponent">
+  <span class="details__name">${monster.name}</span>
+  <span class="details__stat"><span class="details__stat-stamina">Stamina ${monster.stamina}</span></span><span class="details__stat"><span class="details__stat details__stat--skill">Skill ${monster.skill}</span></span>
+</div>`
+}
+
 function htmlify(txt) {
   return txt.replace(/\n/gm, '<br />').replace(/\t/g, '    ');
 }
@@ -60,6 +67,7 @@ fetchAdventure().then(async (adv) => {
   updateHero();
 
   function doFight({ enemies, ...batatas }) {
+    details.classList.remove('hide');
     return new Promise(async (resolve, reject) => {
       const monsters = enemies.map((en) => new Creature(en));
       console.log('fight:', { hero, monsters, ...batatas });
@@ -69,7 +77,8 @@ fetchAdventure().then(async (adv) => {
       function doSubStep() {
         updateHero();
 
-        details.innerHTML = htmlify(outcome.label);
+        details.innerHTML = `${fight.monsters.map(monster2html).join('')}
+${outcome.label}`;
         // console.log(outcome);
 
         interactions.innerHTML = '';
@@ -84,8 +93,10 @@ fetchAdventure().then(async (adv) => {
             interactions.appendChild(el);
           });
         } else if (outcome.alive) {
-              resolve();
+          details.classList.add('hide');
+          resolve();
         } else {
+          details.classList.add('hide');
           reject(outcome.escape);
         }
       }

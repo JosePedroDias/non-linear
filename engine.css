@@ -82,14 +82,81 @@ body {
 
 #details {
   font-family: monospace;
-  margin-top: 1rem;
+  /* margin-top: 1rem;
   padding: .5rem 2rem;
-  border: 1px solid #000;
+  border: 1px solid #000; */
+}
+#details.hide {
+  visibility: hidden;
 }
 
 .details__opponent {
+  margin: 1rem 0;
+  padding: .5rem 2rem;
+  border: 1px solid #000;
   font-weight: 700;
   font-size: 1.5rem;
+}
+
+.details__stat-stamina,
+.details__stat {
+  margin-left: 1rem;
+  font-weight: 400;
+}
+
+.fight {
+  position: relative;
+  margin-top: 1rem;
+  padding: 2rem 0;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.fight::after {
+  content: '-VS-';
+  font-family: var(--font-family);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4rem;
+  color: rgba(0,0,0,0.5)  ;
+}
+
+.fight .hero,
+.fight .enemy {
+  display: flex;
+  height: 8rem;
+  width: 40%;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fight .fight__name {
+  display: block;
+}
+
+.fight .fight__strength {
+  font-size: 3rem;
+  font-family: var(--font-family);
+  height: 5rem;
+  width: 5rem;
+  display: inline-block;
+}
+
+.fight .fight__strength--victor {
+  border: 1px solid #000;
+  border-radius: 100%;
+}
+
+.fight__result {
+  font-size: 1.25rem;
+  text-align: center;
+  font-family: serif;
+  margin-top: 3rem;
+  margin-bottom: -3rem;
 }
 
 #interactions {

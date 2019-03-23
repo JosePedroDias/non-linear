@@ -60,8 +60,11 @@ body {
 
 #text {
   font-size: 120%;
-  max-width: 60rem;
   margin: 0 auto;
+  width: 100%;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  box-sizing: border-box;
 }
 
 #text::first-letter {
@@ -84,6 +87,7 @@ body {
 #interactions {
   text-align: center;
   padding: 4rem 0;
+  margin-bottom: 9rem;
 }
 
  button {
@@ -125,19 +129,15 @@ body {
 }
 
 #hero {
-  /*position: fixed;
-  bottom: -2rem;
-  right: 1rem;
   background: url('assets/parchemin.jpg');
-  background-position: center;
+  position: fixed;
+  height: 9rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-size: cover;
   background-repeat: no-repeat;
-  background-size: 100% auto;
-  border-radius: .25rem;
-  border: 2px solid #3F250B;
-  padding: 2rem 3rem;
-  background-color: #968C75;
-	box-shadow: 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12), 0 8px 10px -5px rgba(0,0,0,.2); */
-
+  box-shadow: 0 -16px 24px 2px rgba(0,0,0,.14), 0 -6px 30px 5px rgba(0,0,0,.12), 0 -8px 10px -5px rgba(0,0,0,.2);
 }
 
 .hero-stats {
@@ -154,7 +154,7 @@ body {
   align-items: center;
   font-family: var(--font-family);
   position: fixed;
-  bottom: -3rem;
+  bottom: -4rem;
 }
 
 .hero-stats__value {
@@ -171,7 +171,8 @@ body {
 }
 
 .hero-stats__stat--stamina {
-  left: 10%;
+  left: -3rem;
+  color: white;
 }
 
 .hero-stats__stat--stamina .hero-stats__value {
@@ -179,7 +180,8 @@ body {
 }
 
 .hero-stats__stat--skill {
-  right: 10%;
+  right: -3rem;
+  color: white;
 }
 
 .hero-stats__stat--skill .hero-stats__value {
@@ -187,20 +189,74 @@ body {
 }
 
 .hero-stats__stat--luck {
-  right: 8%;
-  bottom: 6rem;
+  right: 50%;
+  transform: translateX(50%);
+  bottom: 0;
 }
 
 .hero-stats__stat--luck .hero-stats__value {
   background-color: white;
-  height: 5rem;
-  width: 5rem;
-  line-height: 5rem;
+  height: 4rem;
+  width: 4rem;
+  line-height: 4rem;
   font-size: 1.5rem;
 }
 
 .hero-stats__label {
   letter-spacing: .1em;
+}
+
+@media (min-width: 720px) {
+  #text {
+    width: calc(100% - 14rem);
+  }
+
+  #hero {
+    background: none;
+    box-shadow: none;
+    position: initial;
+  }
+
+  .hero-stats__stat {
+    color: #000;
+  }
+  .hero-stats__stat--luck {
+    right: 0;
+    bottom: 9rem;
+    transform: none;
+  }
+
+  .hero-stats__stat--luck .hero-stats__value {
+    background-color: white;
+    height: 4rem;
+    width: 4rem;
+    line-height: 4rem;
+    font-size: 1.5rem;
+  }
+
+  #interactions {
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 800px) {
+  #text {
+    max-width: 520px;
+    padding: 0;
+  }
+
+  .hero-stats__stat--stamina {
+    left: calc(50% - 450px);
+  }
+
+  .hero-stats__stat--skill {
+    right: calc(50% - 450px);
+  }
+
+  .hero-stats__stat--luck {
+    right: calc(50% - 340px);
+    bottom: 4rem;
+  }
 }
 
 /** DICE */

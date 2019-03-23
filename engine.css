@@ -270,6 +270,11 @@ body {
   box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
 }
 
+.die.second {
+  top: 4rem;
+  right: 13rem;
+}
+
 .die.hide {
   visibility: hidden;
 }

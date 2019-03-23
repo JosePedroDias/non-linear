@@ -1,8 +1,8 @@
 /**************DICES**************/
-const die = document.getElementById('die');
-const cube = document.getElementById('cube');
+const dices = document.getElementsByClassName('die');
+const cubes = document.getElementsByClassName('cube');
 
-const rollDie = (color = 'white', sides = 6) =>
+const rollDie = (color = 'white', die = dices[0], cube = cubes[0], sides = 6) =>
   new Promise((resolve) => {
     cube.classList.add(color);
     cube.classList.add('animation-2');
@@ -25,15 +25,11 @@ const rollDie = (color = 'white', sides = 6) =>
     }, 600);
   });
 
-const rollDices = async (color, diceCounts = 2, sides) => {
-  let sum = 0;
-
-  while (diceCounts--) {
-    sum += await rollDie(color, sides);
-  }
-
-  return sum;
-};
+const sum = (a, b) => a + b;
+const rollDices = async (color, diceCounts = 2, sides) =>
+  Promise.all(new Array(diceCounts).fill(0).map((_, index) =>
+    rollDie(color, dices[index], cubes[index], sides)
+  )).then((rolls) => rolls.reduce(sum));
 /**************DICES**************/
 
 /**************POTIONS**************/

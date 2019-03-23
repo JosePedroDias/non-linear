@@ -121,10 +121,8 @@ body {
 }
 
 #hero {
-  padding: 2rem 3rem;
-  background-color: #968C75;
-  position: fixed;
-  bottom: 2rem;
+  /*position: fixed;
+  bottom: -2rem;
   right: 1rem;
   background: url('assets/parchemin.jpg');
   background-position: center;
@@ -132,8 +130,9 @@ body {
   background-size: 100% auto;
   border-radius: .25rem;
   border: 2px solid #3F250B;
-
-	box-shadow: 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12), 0 8px 10px -5px rgba(0,0,0,.2);
+  padding: 2rem 3rem;
+  background-color: #968C75;
+	box-shadow: 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12), 0 8px 10px -5px rgba(0,0,0,.2); */
 
 }
 
@@ -147,23 +146,55 @@ body {
 
 .hero-stats__stat {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
   font-family: 'Pirata One', cursive;
-}
-
-.hero-stats__label {
-  letter-spacing: .1em;
+  position: fixed;
+  bottom: -3rem;
 }
 
 .hero-stats__value {
-  height: 3rem;
-  width: 3rem;
+  height: 10rem;
+  width: 10rem;
   border: 2px solid #000;
   display: block;
   border-radius: 100%;
   text-align: center;
-  line-height: 3rem;
+  line-height: 10rem;
   margin-bottom: .5rem;
+  font-size: 3rem;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3), inset 0 0 20px rgba(0,0,0,1);
+}
+
+.hero-stats__stat--stamina {
+  left: 10%;
+}
+
+.hero-stats__stat--stamina .hero-stats__value {
+  background-color: red;
+}
+
+.hero-stats__stat--skill {
+  right: 10%;
+}
+
+.hero-stats__stat--skill .hero-stats__value {
+  background-color: blue;
+}
+
+.hero-stats__stat--luck {
+  right: 8%;
+  bottom: 6rem;
+}
+
+.hero-stats__stat--luck .hero-stats__value {
+  background-color: white;
+  height: 5rem;
+  width: 5rem;
+  line-height: 5rem;
   font-size: 1.5rem;
+}
+
+.hero-stats__label {
+  letter-spacing: .1em;
 }

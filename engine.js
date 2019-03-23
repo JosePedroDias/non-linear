@@ -72,12 +72,7 @@ fetchAdventure().then(async (adv) => {
             interactions.appendChild(el);
           });
         } else if (outcome.alive) {
-          const el = document.createElement('button');
-          el.appendChild(document.createTextNode('continue'));
-          el.onclick = function() {
-            resolve();
-          };
-          interactions.appendChild(el);
+              resolve();
         } else {
           reject(outcome.escape);
         }

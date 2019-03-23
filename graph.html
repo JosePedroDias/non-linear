@@ -94,7 +94,7 @@
       d3.select('svg g').call(render, g);
     }
 
-    fetch('adventure/adventure.dot')
+    fetch('adventure/adventureGenerated.dot')
       .then((resp) => resp.text())
       .then(draw);
   </script>

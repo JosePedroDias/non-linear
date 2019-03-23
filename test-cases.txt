@@ -1,0 +1,69 @@
+0
+
+"interaction": {
+  "label": "turn to 1",
+  "do": ["goTo", "1"]
+}
+
+
+1
+
+"interaction": {
+  "oneOf": [
+    { "label": "turn to 278", "do": ["goTo", "278"] },
+    { "label": "turn to 71", "do": ["goTo", "71"] }
+  ]
+}
+
+
+2
+
+"interactions": [
+  {
+    "label": "test your luck",
+    "lucky": ["goTo", "269"],
+    "unlucky": ["goTo", "16"]
+  }
+]
+
+
+34
+
+"interaction": {
+    "sequence": [
+      {
+        "oneOf": [
+          {
+            "label": "take mallet",
+            "sequence": [["dropItem"], ["takeItem", "mallet"]]
+          },
+          {
+            "label": "take chisel",
+            "sequence": [["dropItem"], ["takeItem", "chisel"]]
+          },
+          { "label": "take nothing" }
+        ]
+      },
+      ["goTo", "96"]
+    ]
+  }
+}
+
+
+8
+
+"interaction: {
+  "sequence": [
+    {
+      "fight": [{
+        "stamina": "6",
+        "skill": "7",
+        "name": "BARBARIAN"
+      }
+    ]},
+    {do:["goTo", "8"]}
+  ]
+}
+
+
+140

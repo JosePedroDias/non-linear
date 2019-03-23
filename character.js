@@ -230,7 +230,7 @@ class Character extends Creature {
     super(rest);
 
     this.luck = new Attribute('luck', luck);
-    this.provition = new Attribute('provition', 10);
+    this.provision = new Attribute('provision', 10);
 
     this.potion = createPotion(potion, this);
 
@@ -281,7 +281,7 @@ class Character extends Creature {
   }
 
   eat(modifiers = 0, force) {
-    this.provition.update(-1);
+    this.provision.update(-1);
     this.stamina.update(4 + modifiers, force);
 
     return this;

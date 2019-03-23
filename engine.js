@@ -78,7 +78,7 @@ fetchAdventure().then(async (adv) => {
           };
           interactions.appendChild(el);
         } else {
-          reject();
+          reject(outcome.escape);
         }
       }
 
@@ -117,7 +117,11 @@ fetchAdventure().then(async (adv) => {
           process(int.do).then(resolve);
         }
       } else if (int.fight) {
-        doFight({ enemies: int.fight, escape: int.escape }).then(resolve);
+        doFight({ enemies: int.fight, escape: int.escape })
+          .then(resolve)
+          .catch(() => {
+            process(int.escape); // TODO?
+          });
       } else if (int.oneOf) {
         uiOneOf(int.oneOf)
           .then(async ({ label, ...t }) => process(t.do || t))

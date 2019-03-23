@@ -1792,6 +1792,21 @@
           ]
         },
         {
+          "beatEmUp": true,
+          "fight": [
+            {
+              "name": "SKELETON A",
+              "skill": 5,
+              "stamina": 5
+            },
+            {
+              "name": "SKELETON B",
+              "skill": 6,
+              "stamina": 5
+            }
+          ]
+        },
+        {
           "do": ["goTo", "395"],
           "label": "turn to page 395"
         }

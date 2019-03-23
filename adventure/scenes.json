@@ -234,14 +234,14 @@
         {
           "fight": [
             {
-              "stamina":  5,
-              "skill":  5,
-              "name": "First GOBLIN\r"
+              "stamina": 5,
+              "skill": 5,
+              "name": "First GOBLIN"
             },
             {
-              "stamina":  6,
-              "skill":  5,
-              "name": "Second GOBLIN\r"
+              "stamina": 6,
+              "skill": 5,
+              "name": "Second GOBLIN"
             }
           ]
         },
@@ -259,24 +259,24 @@
         {
           "fight": [
             {
-              "stamina":  4,
-              "skill":  7,
-              "name": "First DWARF\r"
+              "stamina": 4,
+              "skill": 7,
+              "name": "First DWARF"
             },
             {
-              "stamina":  6,
-              "skill":  6,
-              "name": "Second DWARF\r"
+              "stamina": 6,
+              "skill": 6,
+              "name": "Second DWARF"
             },
             {
-              "stamina":  5,
-              "skill":  7,
-              "name": "Third DWARF\r"
+              "stamina": 5,
+              "skill": 7,
+              "name": "Third DWARF"
             },
             {
-              "stamina":  5,
-              "skill":  7,
-              "name": "Fourth DWARF\r"
+              "stamina": 5,
+              "skill": 7,
+              "name": "Fourth DWARF"
             },
             {
               "escape": ["goTo", "291"]
@@ -429,8 +429,8 @@
         {
           "fight": [
             {
-              "stamina":  4,
-              "skill":  6,
+              "stamina": 4,
+              "skill": 6,
               "name": "ORC"
             }
           ]
@@ -521,8 +521,8 @@
         {
           "fight": [
             {
-              "stamina": "l8",
-              "skill":  11,
+              "stamina": 18,
+              "skill": 11,
               "name": "WARLOCK"
             }
           ]
@@ -560,8 +560,8 @@
         {
           "fight": [
             {
-              "stamina":  6,
-              "skill":  9,
+              "stamina": 6,
+              "skill": 9,
               "name": "WIGHT"
             }
           ]
@@ -818,8 +818,8 @@
         {
           "fight": [
             {
-              "stamina":  8,
-              "skill":  7,
+              "stamina": 8,
+              "skill": 7,
               "name": "GIANT SPIDER"
             },
             {
@@ -1128,8 +1128,8 @@
         {
           "fight": [
             {
-              "stamina":  6,
-              "skill":  7,
+              "stamina": 6,
+              "skill": 7,
               "name": "CROCODILE"
             }
           ]
@@ -1394,8 +1394,8 @@
         {
           "fight": [
             {
-              "stamina":  4,
-              "skill":  6,
+              "stamina": 4,
+              "skill": 6,
               "name": "HAND"
             }
           ]
@@ -1499,14 +1499,14 @@
         {
           "fight": [
             {
-              "stamina":  4,
-              "skill":  5,
-              "name": "First ORC\r"
+              "stamina": 4,
+              "skill": 5,
+              "name": "First ORC"
             },
             {
-              "stamina":  5,
-              "skill":  5,
-              "name": "Second ORC\r"
+              "stamina": 5,
+              "skill": 5,
+              "name": "Second ORC"
             },
             {
               "escape": ["goTo", "42"]
@@ -1820,8 +1820,8 @@
         {
           "fight": [
             {
-              "stamina": "l8",
-              "skill":  11,
+              "stamina": 18,
+              "skill": 11,
               "name": "WARLOCK"
             }
           ]
@@ -1841,8 +1841,8 @@
         {
           "fight": [
             {
-              "stamina":  7,
-              "skill":  7,
+              "stamina": 7,
+              "skill": 7,
               "name": "GIANT SANDWORM"
             },
             {
@@ -1973,8 +1973,8 @@
         {
           "fight": [
             {
-              "stamina":  12,
-              "skill":  10,
+              "stamina": 12,
+              "skill": 10,
               "name": "DRAGON"
             }
           ]
@@ -2045,8 +2045,8 @@
         {
           "fight": [
             {
-              "stamina":  5,
-              "skill":  5,
+              "stamina": 5,
+              "skill": 5,
               "name": "PIRANHAS"
             }
           ]
@@ -2106,8 +2106,8 @@
         {
           "fight": [
             {
-              "stamina":  9,
-              "skill":  8,
+              "stamina": 9,
+              "skill": 8,
               "name": "GIANT"
             },
             {
@@ -2326,8 +2326,8 @@
         {
           "fight": [
             {
-              "stamina":  9,
-              "skill":  9,
+              "stamina": 9,
+              "skill": 9,
               "name": "MINOTAUR"
             },
             {
@@ -2454,8 +2454,8 @@
         {
           "fight": [
             {
-              "stamina":  5,
-              "skill":  8,
+              "stamina": 5,
+              "skill": 8,
               "name": "WERERAT"
             },
             {
@@ -2618,14 +2618,14 @@
         {
           "fight": [
             {
-              "stamina":  6,
-              "skill":  7,
-              "name": "First CAVEMAN\r"
+              "stamina": 6,
+              "skill": 7,
+              "name": "First CAVEMAN"
             },
             {
-              "stamina":  4,
-              "skill":  6,
-              "name": "Second CAVEMAN\r"
+              "stamina": 4,
+              "skill": 6,
+              "name": "Second CAVEMAN"
             }
           ]
         },
@@ -3028,8 +3028,8 @@
         {
           "fight": [
             {
-              "stamina":  7,
-              "skill":  8,
+              "stamina": 7,
+              "skill": 8,
               "name": "GHOUL"
             }
           ]
@@ -3099,19 +3099,19 @@
         {
           "fight": [
             {
-              "stamina":  5,
-              "skill":  6,
-              "name": "SKELETON A\r"
+              "stamina": 5,
+              "skill": 6,
+              "name": "SKELETON A"
             },
             {
-              "stamina":  6,
-              "skill":  6,
-              "name": "SKELETON B\r"
+              "stamina": 6,
+              "skill": 6,
+              "name": "SKELETON B"
             },
             {
-              "stamina":  5,
-              "skill":  5,
-              "name": "SKELETON C\r"
+              "stamina": 5,
+              "skill": 5,
+              "name": "SKELETON C"
             }
           ]
         },
@@ -3171,8 +3171,8 @@
         {
           "fight": [
             {
-              "stamina":  2,
-              "skill":  5,
+              "stamina": 2,
+              "skill": 5,
               "name": "SNAKE"
             }
           ]
@@ -3268,8 +3268,8 @@
         {
           "fight": [
             {
-              "stamina":  5,
-              "skill":  6,
+              "stamina": 5,
+              "skill": 6,
               "name": "ORC"
             }
           ]
@@ -3288,8 +3288,8 @@
         {
           "fight": [
             {
-              "stamina":  6,
-              "skill":  7,
+              "stamina": 6,
+              "skill": 7,
               "name": "DOG"
             },
             {
@@ -3327,8 +3327,8 @@
         {
           "fight": [
             {
-              "stamina":  6,
-              "skill":  6,
+              "stamina": 6,
+              "skill": 6,
               "name": "GIANT BATS"
             },
             {
@@ -3743,19 +3743,19 @@
         {
           "fight": [
             {
-              "stamina":  6,
-              "skill":  6,
-              "name": "ZOMBIE with scythe\r"
+              "stamina": 6,
+              "skill": 6,
+              "name": "ZOMBIE with scythe"
             },
             {
-              "stamina":  6,
-              "skill":  6,
-              "name": "ZOMBIE with pick\r"
+              "stamina": 6,
+              "skill": 6,
+              "name": "ZOMBIE with pick"
             },
             {
-              "stamina":  5,
-              "skill":  6,
-              "name": "ZOMBIE with axe\r"
+              "stamina": 5,
+              "skill": 6,
+              "name": "ZOMBIE with axe"
             }
           ]
         },
@@ -3856,8 +3856,8 @@
         {
           "fight": [
             {
-              "stamina":  12,
-              "skill":  7,
+              "stamina": 12,
+              "skill": 7,
               "name": "WARLOCK"
             }
           ]
@@ -4052,8 +4052,8 @@
         {
           "fight": [
             {
-              "stamina":  8,
-              "skill":  8,
+              "stamina": 8,
+              "skill": 8,
               "name": "WEREWOLF"
             },
             {
@@ -4144,19 +4144,19 @@
         {
           "fight": [
             {
-              "stamina":  4,
-              "skill":  5,
-              "name": "First RAT\r"
+              "stamina": 4,
+              "skill": 5,
+              "name": "First RAT"
             },
             {
-              "stamina":  3,
-              "skill":  6,
-              "name": "Second RAT\r"
+              "stamina": 3,
+              "skill": 6,
+              "name": "Second RAT"
             },
             {
-              "stamina":  5,
-              "skill":  5,
-              "name": "Third RAT\r"
+              "stamina": 5,
+              "skill": 5,
+              "name": "Third RAT"
             }
           ]
         },
@@ -4407,8 +4407,8 @@
         {
           "fight": [
             {
-              "stamina":  8,
-              "skill":  8,
+              "stamina": 8,
+              "skill": 8,
               "name": "TROLL"
             }
           ]
@@ -4442,8 +4442,8 @@
         {
           "fight": [
             {
-              "stamina":  10,
-              "skill":  10,
+              "stamina": 10,
+              "skill": 10,
               "name": "VAMPIRE"
             },
             {
@@ -4504,8 +4504,8 @@
         {
           "fight": [
             {
-              "stamina":  10,
-              "skill":  10,
+              "stamina": 10,
+              "skill": 10,
               "name": "IRON CYCLOPS"
             },
             {
@@ -4674,8 +4674,8 @@
         {
           "fight": [
             {
-              "stamina":  5,
-              "skill":  5,
+              "stamina": 5,
+              "skill": 5,
               "name": "PIRANHAS"
             }
           ]
@@ -4877,29 +4877,29 @@
         {
           "fight": [
             {
-              "stamina":  4,
-              "skill":  6,
-              "name": "First ORC\r"
+              "stamina": 4,
+              "skill": 6,
+              "name": "First ORC"
             },
             {
-              "stamina":  3,
-              "skill":  5,
-              "name": "Second ORC\r"
+              "stamina": 3,
+              "skill": 5,
+              "name": "Second ORC"
             },
             {
-              "stamina":  4,
-              "skill":  6,
-              "name": "Third ORC\r"
+              "stamina": 4,
+              "skill": 6,
+              "name": "Third ORC"
             },
             {
-              "stamina":  2,
-              "skill":  5,
-              "name": "Fourth ORC\r"
+              "stamina": 2,
+              "skill": 5,
+              "name": "Fourth ORC"
             },
             {
-              "stamina":  4,
-              "skill":  4,
-              "name": "Fifth ORC\r"
+              "stamina": 4,
+              "skill": 4,
+              "name": "Fifth ORC"
             },
             {
               "escape": ["goTo", "237"]
@@ -4996,21 +4996,21 @@
       "label": "turn to page 274"
     }
   },
-  "372": 
+  "372": {
     "text": "The battle commences!\nSKILL\nSTAMINA\nORC CHIEFTAIN\n7\n6\nSERVANT\n5\n3\nFight them one at a time. If you defeat them both, turn to 21.",
     "interaction": {
       "sequence": [
         {
           "fight": [
             {
-              "stamina":  6,
-              "skill":  7,
-              "name": "ORC CHIEFTAIN\r"
+              "stamina": 6,
+              "skill": 7,
+              "name": "ORC CHIEFTAIN"
             },
             {
-              "stamina":  3,
-              "skill":  5,
-              "name": "SERVANT\r"
+              "stamina": 3,
+              "skill": 5,
+              "name": "SERVANT"
             }
           ]
         },
@@ -5056,8 +5056,8 @@
         {
           "fight": [
             {
-              "stamina":  7,
-              "skill":  5,
+              "stamina": 7,
+              "skill": 5,
               "name": "WINGED GREMLIN"
             }
           ]
@@ -5280,8 +5280,8 @@
         {
           "fight": [
             {
-              "stamina":  8,
-              "skill":  7,
+              "stamina": 8,
+              "skill": 7,
               "name": "GIANT SPIDER"
             }
           ]

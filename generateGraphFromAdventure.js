@@ -2,37 +2,32 @@ const fs = require('fs');
 
 const o = JSON.parse(fs.readFileSync('adventure/scenes.json').toString());
 
+function traverse(o, fn) {
+  const t = typeof t;
+  if (t === 'object') {
+    if (o instanceof Array) {
+      if (typeof o[0] === 'string') {
+        fn(o);
+      } else {
+        o.forEach((item) => traverse(item, fn));
+      }
+    } else {
+      Object.keys(o).forEach((k) => traverse(o[k], fn));
+    }
+  }
+}
+
 let out = [];
 Object.keys(o).forEach((k) => {
   const v = o[k];
 
   const inter = v.interaction;
   if (inter) {
-    const kind = inter.kind;
-    if (kind === 'gotos') {
-      inter.options.forEach((opt) => {
-        out.push(
-          `  "${k}" -> "${opt.to}" [label="${opt.label}", color="gray"]`
-        );
-      });
-    } else if (kind === 'fight') {
-      out.push(`  "${k}" -> "${inter.to}" [label="after fight", color="blue"]`);
-    } else if (kind === 'luck') {
-      if (inter.options.length !== 2) {
-        console.log('PROBLEMATIC_LUCKY: ' + k);
-        out.push(`  "PROBLEMATIC_LUCKY" -> ${k}`);
-      } else {
-        out.push(
-          `  "${k}" -> "${inter.options[0]}" [label="lucky", color="green"]`
-        );
-        out.push(
-          `  "${k}" -> "${inter.options[1]}" [label="unlucky", color="red"]`
-        );
-      }
-    } else {
-      console.log('UNSUPPORTED_KIND: ' + k);
-      out.push(`  "UNSUPPORTED_KIND" -> ${k}`);
-    }
+    const tra = traverse(inter);
+    console.log('k', k);
+    console.log('tra', tra);
+
+    out.unshift(`"${k}" [color="blue"]`);
   } else {
     console.log('DEAD END: ' + k);
     out.unshift(`"${k}" [color="red"]`);

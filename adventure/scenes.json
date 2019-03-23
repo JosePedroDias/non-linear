@@ -3277,7 +3277,7 @@
     }
   },
   "248": {
-    "text": "The creature that has just awakened is an ORC! He scrambles to his feet and turns to grasp at a rope which is probably the alarm bell. You must attack him quickly.\nORC                          SKILL 6               STAMINA 5\nIf you defeat him, you may continue up the passage - turn to 301.",
+    "text": "The creature that has just awakened is an ORC! He scrambles to his feet and turns to grasp at a rope which is probably the alarm bell. You must attack him quickly.\nIf you defeat him, you may continue up the passage - turn to 301.",
     "interaction": {
       "sequence": [
         {

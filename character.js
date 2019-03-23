@@ -1,16 +1,34 @@
 /**************DICES**************/
-const dices = document.getElementById('dices');
+const die = document.getElementById('cube');
 
-const rollDie = (sides = 6) => dices.innerHtml = 1 + Math.floor(sides * Math.random());
+const rollDie = (sides = 6) => new Promise((resolve) => {
+  die.classList.remove('animation-1');
+  die.classList.add('animation-2');
 
-const rollDices = (diceCounts = 2, sides) => {
+  setTimeout(() => {
+    die.classList.remove('animation-2');
+
+    const value = 1 + Math.floor(sides * Math.random());
+
+    die.classList.add(`show-${value}`);
+
+    setTimeout(() => {
+      die.classList.remove(`show-${value}`);
+      die.classList.add('animation-1');
+  
+      resolve(value);
+    }, 400);
+  }, 600);
+});
+
+const rollDices = async (diceCounts = 2, sides) => {
   let sum = 0;
 
   while (diceCounts--) {
-    sum += rollDie(sides);
+    sum += await rollDie(sides);
   }
 
-  return dices.innerHtml = sum;
+  return sum;
 };
 /**************DICES**************/
 
@@ -160,8 +178,8 @@ class Creature {
     this.stamina = new Attribute('stamina', stamina);
   }
 
-  attack() {
-    return rollDices() + this.skill;
+  async attack() {
+    return await rollDices() + this.skill;
   }
 
   hasAttr(name) {
@@ -261,12 +279,12 @@ class Character extends Creature {
     return this.gold >= amount;
   }
 
-  attack(skillModifier = 0) {
-    return rollDices() + this.skill + skillModifier;
+  async attack(skillModifier = 0) {
+    return await rollDices() + this.skill + skillModifier;
   }
 
-  testLuck(luckModifier) {
-    const wasLucky = rollDices() + luckModifier <= this.luck;
+  async testLuck(luckModifier) {
+    const wasLucky = await rollDices() <= this.luck + luckModifier;
 
     this.updateAttr('luck', -1);
 
@@ -278,10 +296,10 @@ class Character extends Creature {
   }
 }
 
-function createCharacter(name) {
-  const skill = rollDie() + 6;
-  const stamina = rollDices() + 12;
-  const luck = rollDie() + 6;
+async function createCharacter(name) {
+  const skill = await rollDie() + 6;
+  const stamina = await rollDices() + 12;
+  const luck = await rollDie() + 6;
 
   const potion = window.prompt('Which potion do you like to have (skill, strength, fortune)', 'strength')
 
@@ -323,11 +341,11 @@ class Fight {
     let label;
     const actions = this.beatEmUp ? this.monsters.map((monster, index) => ({
       label: `Fight ${monster.name}`,
-      callback: () => this.attackMob(index)
+      callback: async () => await this.attackMob(index)
     })) : [
       {
         label: 'Fight',
-        callback: () => this.attack()
+        callback: async () => await this.attack()
       }
     ];
 
@@ -342,21 +360,21 @@ class Fight {
     if (this.canEscape) {
       actions.push({
         label: 'Escape',
-        callback: () => this.escape()
+        callback: async () => await this.escape()
       }, {
         label: 'Escape (with Lucky)',
-        callback: () => this.escape(true)
+        callback: async () => await this.escape(true)
       });
     }
 
     return { actions, label };
   };
 
-  escape(testLuck) {
+  async escape(testLuck) {
     let damage = 2;
 
     if (testLuck) {
-      damage += this.hero.testLuck(this.modifiers.luck) ? -1 : 1;
+      damage += await this.hero.testLuck(this.modifiers.luck) ? -1 : 1;
     }
 
     this.hero.updateAttr('stamina', -damage);
@@ -374,11 +392,11 @@ class Fight {
     };
   }
 
-  attack() {
+  async attack() {
     const actions = [];
 
-    this.heroStrenght = this.hero.attack(this.modifiers.skill);
-    this.monsterStrenght = this.monsters[0].attack();
+    this.heroStrenght = await this.hero.attack(this.modifiers.skill);
+    this.monsterStrenght = await this.monsters[0].attack();
 
     let label = `Hero Strenght\tMonster Strenght (${this.monsters[0].name})
 ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
@@ -394,11 +412,11 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
       label += '\nDo you want to Test your Luck?';
       actions.push(
         {
-          callback: () => this.damage(true),
+          callback: async () => await this.damage(true),
           label: 'Yes'
         },
         {
-          callback: () => this.damage(),
+          callback: async () => await this.damage(),
           label: 'No'
         }
       );
@@ -407,13 +425,13 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
     return { actions, label };
   }
 
-  damage(testLuck) {
+  async damage(testLuck) {
     let damage = 2;
     let wasLucky;
     let wounded;
 
     if (testLuck) {
-      wasLucky = this.hero.testLuck(this.modifiers.luck);
+      wasLucky = await this.hero.testLuck(this.modifiers.luck);
     }
 
     const monsterWounded = this.heroStrenght > this.monsterStrenght;
@@ -435,12 +453,12 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
         damage += wasLucky ? -1 : 1;
       }
 
-      if (this.hero.shield === equipments.circularIronShield && rollDie() === 6) {
+      if (this.hero.shield === equipments.circularIronShield && await rollDie() === 6) {
         damage -= 1;
       }
 
       if (this.section === 39) {
-        const die = rollDie();
+        const die = await rollDie();
 
         if (die === 6) {
           damage = 0;
@@ -493,11 +511,11 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
     };
   }
 
-  attackMob(attackedIndex, index = 0) {
+  async attackMob(attackedIndex, index = 0) {
     const actions = [];
 
-    this.heroStrenght = this.hero.attack(this.modifiers.skill);
-    this.monsterStrenght = this.monsters[index].attack();
+    this.heroStrenght = await this.hero.attack(this.modifiers.skill);
+    this.monsterStrenght = await this.monsters[index].attack();
 
     let label = `Hero Strenght\tMonster Strenght (${this.monsters[index].name})
 ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
@@ -507,22 +525,22 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
       label += '\nDraw';
       actions.push({
         label: 'Continue',
-        callback: this.monsters.length - 1 === index ? () => this.turn() : () => this.attackMob(attackedIndex, ++index)
+        callback: this.monsters.length - 1 === index ? () => this.turn() : async () => await this.attackMob(attackedIndex, ++index)
       });
     } else if (this.heroStrenght > this.monsterStrenght && attackedIndex !== index) {
       actions.push({
         label: 'Continue',
-        callback: this.monsters.length - 1 === index ? () => this.turn() : () => this.attackMob(attackedIndex, ++index)
+        callback: this.monsters.length - 1 === index ? () => this.turn() : async () => await this.attackMob(attackedIndex, ++index)
       });
     } else {
       label += '\nDo you want to Test your Luck?';
       actions.push(
         {
-          callback: () => this.damageMob(attackedIndex, index, true),
+          callback: async () => await this.damageMob(attackedIndex, index, true),
           label: 'Yes'
         },
         {
-          callback: () => this.damageMob(attackedIndex, index),
+          callback: async () => await this.damageMob(attackedIndex, index),
           label: 'No'
         }
       );
@@ -531,13 +549,13 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
     return { actions, label };
   }
 
-  damageMob(attackedIndex, index, testLuck) {
+  async damageMob(attackedIndex, index, testLuck) {
     let damage = 2;
     let wasLucky;
     let wounded;
 
     if (testLuck) {
-      wasLucky = this.hero.testLuck(this.modifiers.luck);
+      wasLucky = await this.hero.testLuck(this.modifiers.luck);
     }
 
     const monsterWounded = this.heroStrenght > this.monsterStrenght;
@@ -559,12 +577,12 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
         damage += wasLucky ? -1 : 1;
       }
 
-      if (this.hero.shield === equipments.circularIronShield && rollDie() === 6) {
+      if (this.hero.shield === equipments.circularIronShield && await rollDie() === 6) {
         damage -= 1;
       }
 
       if (this.section === 39) {
-        const die = rollDie();
+        const die = await rollDie();
 
         if (die === 6) {
           damage = 0;

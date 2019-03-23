@@ -1,3 +1,7 @@
+:root {
+  --font-family: 'Pirata One', cursive;
+}
+
 body {
   background: url('/assets/papyrus.jpg');
   line-height: 1.4;
@@ -68,7 +72,7 @@ body {
 
 #text::first-line {
   font-size: 1.5rem;
-  font-family: 'Pirata One', cursive;
+  font-family: var(--font-family);
   letter-spacing: .1em;
 }
 
@@ -148,7 +152,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: 'Pirata One', cursive;
+  font-family: var(--font-family);
   position: fixed;
   bottom: -3rem;
 }
@@ -197,4 +201,91 @@ body {
 
 .hero-stats__label {
   letter-spacing: .1em;
+}
+
+/** DICE */
+.die {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 212px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
+}
+
+@keyframes spin {
+    0% { transform: translateZ(-50px) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    16% { transform: translateZ(-50px) rotateX(180deg) rotateY(180deg) rotateZ(0deg); }
+    33% { transform: translateZ(-50px) rotateX(360deg) rotateY(90deg) rotateZ(180deg); }
+    50% { transform: translateZ(-50px) rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+    66% { transform: translateZ(-50px) rotateX(180deg) rotateY(360deg) rotateZ(270deg); }
+    83% { transform: translateZ(-50px) rotateX(270deg) rotateY(180deg) rotateZ(180deg); }
+    100% { transform: translateZ(-50px) rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+}
+
+.cube {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: translateZ(-50px);
+  transition: transform 0.8s;
+  font-family: var(--font-family);
+}
+
+.animation-1 {animation: spin 50s infinite linear;}
+
+.animation-2 {animation: spin 1.6s infinite linear;}
+
+.cube.show-1 { transform: translateZ(-50px) rotateY(0deg);}
+.cube.show-2 { transform: translateZ(-50px) rotateY(-90deg);}
+.cube.show-3 { transform: translateZ(-50px) rotateY(-180deg);}
+.cube.show-4 { transform: translateZ(-50px) rotateY(90deg);}
+.cube.show-5 { transform: translateZ(-50px) rotateX(-90deg);}
+.cube.show-6 { transform: translateZ(-50px) rotateX(90deg);}
+
+*[class^='cube_face'] {
+  display: grid;
+  position: absolute;
+  place-items: center;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #444;
+  font-size: 3rem;
+  color: #000;
+  background: #FFF;
+  box-shadow: inset 0 0 0 #ccc;
+}
+
+.cube_face_1 { transform: rotateY(0deg) translateZ(50px); }
+.cube_face_2 { transform: rotateY(90deg) translateZ(50px); }
+.cube_face_3 { transform: rotateY(180deg) translateZ(50px); }
+.cube_face_4 { transform: rotateY(-90deg) translateZ(50px); }
+.cube_face_5 { transform: rotateX(90deg) translateZ(50px); }
+.cube_face_6 { transform: rotateX(-90deg) translateZ(50px); }
+
+.cube_face_1,
+.cube_face_2,
+.cube_face_3,
+.cube_face_4,
+.cube_face_5,
+.cube_face_6 {
+    display: block;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    background: white;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP…dpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==);
+    background: -moz-radial-gradient(#ffffff, #dddddd);
+    background: -webkit-radial-gradient(#ffffff, #dddddd);
+    background: radial-gradient(#ffffff, #dddddd);
+    border: solid 6px #ddd;
+    border-radius: 8px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 100px;
+    text-align: center;
 }

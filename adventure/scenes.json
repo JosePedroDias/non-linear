@@ -2,38 +2,29 @@
   "0": {
     "text": "RUMOURS\nOnly a foolhardy adventurer would embark upon such a perilous quest without first finding out as much as possible about the mountain and its treasures . Before your arrival at the foot of Firetop Mountain, you spent several days with the townsfolk of a local village some two days' journey from the base. Being a likeable sort of person, you found it easy to get on with the local peasants. Although they told many stories about the mysterious Warlock's sanctuary, you could not feel sure that all-or indeed any - of these were based on fact. The villagers had seen many adventurers pass through on their way to the mountain, but very few ever returned. The journey ahead was extremely dangerous, that you knew for certain. Of those who returned to the village, none contemplated going back to Firetop Mountain.\nThere seemed to be some truth in the rumour that the Warlock's treasure was stored in a magnificent chest with two locks, and the keys to these locks were guarded by various creatures within the dungeons. The Warlock himself was a sorcerer of great power. Some described him as old, others as young. Some said his power came from an enchanted deck of cards, others from the silky black gloves that he wore.\nThe entrance to the mountain was guarded by a pack of warty-faced Goblins, stupid creatures, fond of their food and drink. Towards the inner chambers, the creatures became more fearsome. To reach the inner chambers you would have to cross a river. The ferry service was regular, but the ferryman enjoyed a good barter, so you should save a Gold Piece for the trip. The locals also encouraged you to keep a good map of your wanderings, for without a map you would end up hopelessly lost within the mountain.\nWhen it finally came to your day of leaving, the whole village turned out to wish you a safe journey. Tears came to the eyes of many of the women, young and old alike. You couldn't help wondering whether they were tears of sorrow shed by eyes which would never see you alive again...\nNow turn over.",
     "interaction": {
-      "kind": "gotos",
-      "options": [
-        {
-          "to": "1",
-          "label": "turn to page 1"
-        }
-      ]
+      "label": "turn to 1",
+      "do": ["goTo", "1"]
     }
   },
   "1": {
     "text": "The steep face in front of you looks to have been savaged by the claws of some gargantuan beast.\nAt last your two-day hike is over. You unsheathe your sword, lay it on the ground and sigh with relief as you lower yourself down on to the mossy rocks to sit for a moment's rest. You stretch, rub your eyes and finally look up at Firetop Mountain.\nThe very mountain itself looks menacing. The steep face in front of you looks to have been savaged by the claws of some gargantuan beast. Sharp rocky crags jut out at unnatural angles. At the top of the mountain you can see the eerie red colouring - probably some strange vegetation-which has given the mountain its name. Perhaps no one will ever know exactly what grows up there, as climbing the peak must surely be impossible.\nYour quest lies ahead of you. Across the clearing is a dark cave entrance. You pick up your sword, get to your feet and consider what dangers may lie ahead of you. But with determination, you thrust the sword home into its scabbard and approach the cave.\nYou peer into the gloom to see dark, slimy walls with pools of water on the stone floor in front of you. The air is cold and dank. You light your lantern and step warily into the blackness. Cobwebs brush your face and you hear the scurrying of tiny feet: rats, most likely. You set off into the cave. After a few yards you arrive at a junction. Will you turn west (turn to 71) or east (turn to 278)?",
     "image": "1.jpg",
     "interaction": {
-      "kind": "gotos",
-      "options": [
-        {
-          "to": "278",
-          "label": "turn to page 278"
-        },
-        {
-          "to": "71",
-          "label": "turn to page 71"
-        }
+      "oneOf": [
+        { "label": "turn to 278", "do": ["goTo", "278"] },
+        { "label": "turn to 71", "do": ["goTo", "71"] }
       ]
     }
   },
   "2": {
     "text": "Test your Luck. If you are Lucky, you escape without attracting the Ogre's attention. If you are Unlucky, you curse as you kick a small stone which goes skidding across the cavern floor. You draw your sword in case the Ogre has heard it - turn to 16. If you were Lucky, you creep down the corridor back to the crossroads. Turn to 269.",
-    "interaction": {
-      "kind": "luck",
-      "options": ["269", "16"]
-    }
+    "interactions": [
+      {
+        "label": "test your luck",
+        "lucky": ["goTo", "269"],
+        "unlucky": ["goTo", "16"]
+      }
+    ]
   },
   "3": {
     "text": "The bell gives a dull clang and after a few moments you see a withered old man climb into a small rowing boat moored on the north bank. He rows slowly across to you, moors the boat and limps towards you. He asks you for 3 Gold Pieces. When you protest at the price he mumbles some flimsy excuse about 'inflation'. He begins to get angry at your protestations. Do you pay him the 3 Gold Pieces (turn to 272) or threaten him (turn to 127)?",
@@ -110,18 +101,7 @@
   "8": {
     "text": "The passage ahead ends at a sturdy door. You listen but hear nothing. You try the handle, it turns, and you enter the room. As you look around you hear a loud cry from behind you and swing round to see a wild man leaping towards you wielding a large battle axe. He is a mad BARBARIAN and you must fight him!\nBARBARIAN          SKILL 7            STAMINA 6\nThere is a door in the north wall opposite, through which you may Escape during the battle (turn to 189). If you defeat the Barbarian, turn to 273.",
     "interaction": {
-      "to": [
-        {
-          "to": "189",
-          "label": "turn to page 189"
-        },
-        {
-          "to": "273",
-          "label": "turn to page 273"
-        }
-      ],
-      "kind": "fight",
-      "enemies": [
+      "fight": [
         {
           "stamina": "6",
           "skill": "7",
@@ -510,12 +490,21 @@
   "34": {
     "text": "Looking through the tools you come across a mallet with a hardwood head and a chisel with a solid silver blade. You may keep either of these if you are prepared to forfeit one of the items of equipment you are carrying. If you wish to do so, make the appropriate adjustments to your Equipment List. The noise from the north door gets louder and you move up to investigate. Turn to 96.",
     "interaction": {
-      "kind": "gotos",
-      "options": [
+      "sequence": [
         {
-          "to": "96",
-          "label": "turn to page 96"
-        }
+          "oneOf": [
+            {
+              "label": "take mallet",
+              "sequence": [["dropItem"], ["takeItem", "mallet"]]
+            },
+            {
+              "label": "take chisel",
+              "sequence": [["dropItem"], ["takeItem", "chisel"]]
+            },
+            { "label": "take nothing" }
+          ]
+        },
+        ["goTo", "96"]
       ]
     }
   },
@@ -576,6 +565,7 @@
     "text": "You open the door to find the Werewolf's larder, a miscellaneous collection of bones and decaying meats. The smell is nauseating, although a jar of pickled eggs seems to offer fairly palatable food. If you wish to take these, there will be enough for two meals; add 2 points to your Provisions. Back in the room you may now go out through the south door. Turn to 66.",
     "interaction": {
       "kind": "gotos",
+      "": [{}],
       "options": [
         {
           "to": "66",
@@ -895,6 +885,7 @@
     "image": "58.jpg",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "367",
@@ -1116,6 +1107,7 @@
     "text": "You sit back and rest from the exhausting battle. You may eat Provisions here. You prise the jewel from the still statue. It is heavy in your hand and is worth 50 Gold Pieces. You put it in your pack. As you explore the room and the statue, you notice that one of its breastplate sections is loose. When you open this, a small key is inside. You examine this and notice the number 112 on it. With a smile you put the jewel and the key in your pack and set off back to the junction. Turn to 93, after adding 3 luck points - you have a valuable artefact here.",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "93",
@@ -1140,6 +1132,7 @@
     "text": "Several metres up the passageway you arrive at a junction where you may turn either west or east. Set in the rock on the north wall is a small recess where you may rest and eat Provisions without being seen. If you wish to take Provisions here, do so. Afterwards you may set off either eastwards (turn to 345) or westwards (turn to 18).",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "345",
@@ -1355,6 +1348,7 @@
     "text": "You open the door into a narrow passage and follow it northwards. Some metres up the passageway, it turns to the east, then turns to the north. However, at this second bend, there is a small alcove in the rock. It seems a convenient hiding place and a large rock forms a comfortable seat. You may stop here and eat Provisions if you wish. When you have rested, continue northwards. Turn to 253.",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "253",
@@ -1584,6 +1578,7 @@
     "image": "106.jpg",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "152",
@@ -1953,6 +1948,7 @@
     "text": "You chat about various things and they seem eager to be friendly. They feel lonely in the dungeon with so much evil about and are happy to speak to visitors of a lawful disposition. They tell you that you are in The Maze of Zagor. The only way out is to go deeper into the dungeon. They tell you that the way through the maze is to leave the room, turn right, right, left, keep going straight ... and then they begin to get a bit vague. They're not entirely sure it is correct.\nYou may, if you wish, eat a meal from your Provisions, but you will have to share it with them and thus will only gain half the normal stamina points. Eventually you thank them and leave the room. Go to 291.",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "291",
@@ -2010,6 +2006,7 @@
     "text": "The Wight lies in a heap in the corner of the room.\nYou approach his desk and open the box. There are 18 Gold Pieces within the box. You may take these with you - enter them on your Adventure Sheet. You can add 2 luck points for defeating the creature and may rest a while to take some Provisions. When you are ready, you may leave by the north door. Turn to 360.",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "360",
@@ -2338,6 +2335,7 @@
   "158": {
     "text": "The water around you bristles with activity, as if an invisible hand is dropping unseen pebbles into the river. You gulp - PIRANHAS!- and you begin to feel their sharp teeth biting into your flesh. You kick with your limbs and slash with your weapons to keep them off until you reach the south bank. Treat the Piranhas as a single creature.\nPIRANHAS            SKILL 5               STAMINA 5\nResolve this battle.\nIf you win, you manage to scramble out of the water and lie panting on the south bank. You may eat Provisions here. Turn to 218.",
     "interaction": {
+      "provisions": true,
       "to": [
         {
           "to": "218",
@@ -2985,6 +2983,7 @@
     "text": "You sink to the floor. You pull the dart out and decide to bandage the wound. This gives some relief, but you still feel weak. You decide to take it easy and examine the contents of the chest, but if you wish you may eat some Provisions here. There are 25 Gold Pieces and the label on the bottle shows it to be a Potion of Invisibility, good for one dose. The glove is a mystery. You may put any or all of these into your haversack and leave the room. Turn to 293.",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "293",
@@ -3009,6 +3008,7 @@
     "text": "Add 1 point to your luck for defeating the Werewolf. You may rest and eat Provisions if you wish. As you look around the room there appears to be little of use, although the bunch of keys looks interesting, particularly the one marked 'Boat House'. None are numbered. You may take the keys if you wish. There are doors to the west and south. If you open the west door, go to 38. If you want to go south, turn to 66.",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "66",
@@ -3222,6 +3222,7 @@
     "text": "The water is refreshing. As you drink more you feel a glow spreading through your body as if you were drinking at the fountain of life. Add 4 stamina points, and restore your skill and luck scores to their Initial levels. The fountain of life for you must be the fountain of death for the evil Goblins. You may eat Provisions here. When you have rested, leave through the north door. Turn to 384.",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "384",
@@ -3659,6 +3660,7 @@
     "text": "The passage runs northwards, and ahead you can hear the splashings of an underground river. The air becomes cool and fresh. You soon reach a wide opening of a river bank but despair as you look across to see no way through on the other side. To the east the river flows through a cave in the rock. You may either sit, rest and eat Provisions (turn to 143) or continue by what seems to be the only way forward, jumping into the river and swimming downstream (turn to 399).",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "399",
@@ -3909,6 +3911,7 @@
     "text": "You sort through the broken pots and find little of interest. The liquid looks, smells and tastes like water. The coins in the pot are a fraud. Eight genuine Gold Pieces lie on the surface of the pile (and you may take these) but underneath are merely painted pieces of pot.\nAs you tip the vase out it slips and breaks. A red-coloured key appears, hidden inside a false bottom in the bowl. You may take this key. It is inscribed with the number 111.\nYou may rest here and eat some Provisions. You may add 2 luck points for defeating the Minotaur. Finally you leave the room. Turn to 54.",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "54",
@@ -4018,6 +4021,7 @@
     "image": "266.jpg",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "237",
@@ -4807,6 +4811,7 @@
     "text": "The water is icy cold. You start to swim and notice that your splashings are attracting a moving 'turbulence' in the water. Will your strength and stamina hold out? Roll two dice. If the roll is equal to or less than your stamina score, you believe you can make it and swim furiously for the north bank - turn to 151. If the roll totals more than your stamina score, you decide not to risk it and return to the south bank - turn to 218. You may eat Provisions on the south bank.",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "151",
@@ -4960,6 +4965,7 @@
     "text": "The body on the floor turns visibly older in front of your eyes. The face looks fifty, then ninety, then well over a hundred years old. The skin rots and the eyes decompose as you watch. You notice a movement coming from the creature's chest. As the remnants of the Vampire decay, a small black face breaks through its chest. It resembles a small black shrew, but as it frees itself and unfurls its wings you realize it is a bat. You lunge at it, but it flaps away into the darkness.\nYou search the whole chamber quickly (remember, there are several other coffins there!) and find 30 Gold Pieces, a book, and a Y-shaped stick. You may take these items (enter them on your Adventure Sheet) if you will leave behind one item of Equipment you are already carrying.\nYou can leave through the west door. Turn to 380. If you are hungry you may take Provisions here, and you can add 3 luck points for defeating the Vampire.",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "380",
@@ -5336,6 +5342,7 @@
         }
       ],
       "kind": "fight",
+      "provisions": true,
       "enemies": [
         {
           "stamina": "5",
@@ -5681,6 +5688,7 @@
     "text": "Safe for the moment, you investigate the cavern and find a passageway which continues to the west. Turn to 274. You may rest and eat Provisions before you continue, and add 3 luck points for defeating the Dragon.",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "274",
@@ -5748,6 +5756,7 @@
     "text": "You may collect all the copper pieces on the table. They are worth a total of 4 Gold Pieces. Then you can leave through the door. Turn to 291. You may pause to eat Provisions, and you may add 3 luck points.",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "291",
@@ -5942,6 +5951,7 @@
     "text": "The Ghoul twitches and dies at your feet. You search its body and find little of interest. A couple of earrings, worth 1 Gold Piece between them, are in one of its pockets. You may take these. If you haven't already searched the first body, you do so and find 5 Gold Pieces, which you may also take. You may also stop here, rest and eat Provisions. You can add 2 luck points for killing the Ghoul. Now you may either press on northwards (turn to 120) or search the second body (turn to 393).",
     "interaction": {
       "kind": "gotos",
+      "provisions": true,
       "options": [
         {
           "to": "120",

@@ -10,6 +10,7 @@ fetchAdventure().then((adv) => {
   const hero = createCharacter(
     window.prompt("What is your character's name?", 'hero')
   );
+  window.hero = hero;
 
   function updateHero() {
     heroStats.innerHTML = '' + hero;
@@ -28,7 +29,7 @@ fetchAdventure().then((adv) => {
       updateHero();
 
       details.innerHTML = htmlify(outcome.label);
-      console.log(outcome);
+      // console.log(outcome);
 
       interactions.innerHTML = '';
       if (outcome.actions) {
@@ -54,7 +55,90 @@ fetchAdventure().then((adv) => {
     doSubStep();
   }
 
-  function doStep(name) {
+  function runCommand(arr) {
+    console.warn('runCommand: ' + arr.join(', '));
+    const method = arr[0];
+    const args = arr.slice(1);
+    try {
+      if (method === 'goTo') {
+        doSection(args[0]);
+      } else {
+        return hero[method].apply(hero, args);
+      }
+    } catch (ex) {
+      // console.error(ex);
+    }
+  }
+
+  function uiOneOf(arr, skipClean) {
+    return new Promise((resolve) => {
+      if (skipClean) {
+        interactions.innerHTML = '';
+      }
+      arr.forEach((item) => {
+        const el = document.createElement('button');
+        el.appendChild(document.createTextNode(item.label));
+        el.onclick = () => {
+          resolve(item);
+        };
+        interactions.appendChild(el);
+      });
+    });
+  }
+
+  const mapSeries = (arr, prom, prevProm = Promise.resolve()) =>
+    Promise.all(arr.map((val) => (prevProm = prevProm.then(() => prom(val)))));
+
+  function process(int) {
+    console.warn('process', int);
+
+    return new Promise((resolve) => {
+      if (int.do) {
+        if (int.label) {
+          uiOneOf([int])
+            .then((t) => process(t.do))
+            .then(resolve);
+        } else {
+          process(int.do).then(resolve);
+        }
+      } else if (int.oneOf) {
+        uiOneOf(int.oneOf)
+          .then((t) => process(t.do || t))
+          .then(resolve);
+      } else if (int.lucky || int.unlucky) {
+        function work() {
+          const wasLucky = hero.testLuck();
+          const whatToDo = wasLucky ? int.lucky : int.unlucky;
+          if (whatToDo) {
+            return process(whatToDo);
+          } else {
+            return Promise.resolve();
+          }
+        }
+        if (int.label) {
+          uiOneOf([{ label: int.label }])
+            .then(work)
+            .then(resolve);
+        } else {
+          work().then(resolve);
+        }
+      } else if (int.sequence) {
+        mapSeries(int.sequence, process).then(resolve);
+      } else if (int.if) {
+        process(int.if).then((result) => {
+          if (result) {
+            (int.then && process(int.then).then(resolve)) || resolve();
+          } else {
+            (int.else && process(int.else).then(resolve)) || resolve();
+          }
+        });
+      } else {
+        resolve(runCommand(int));
+      }
+    });
+  }
+
+  function doSection(name) {
     const section = adv[name];
     if (!section) {
       return window.alert('SECTION NOT FOUND: ' + name);
@@ -73,39 +157,17 @@ fetchAdventure().then((adv) => {
 
     interactions.innerHTML = '';
     if (section.interaction) {
-      const inter = section.interaction;
-      if (inter.kind === 'gotos') {
-        inter.options.forEach((opt) => {
-          const el = document.createElement('button');
-          el.appendChild(document.createTextNode(opt.label));
-          el.onclick = function() {
-            doStep(opt.to);
-          };
-          interactions.appendChild(el);
-        });
-      } else if (inter.kind === 'luck') {
-        const el = document.createElement('button');
-        el.appendChild(document.createTextNode('test luck'));
-        el.onclick = function() {
-          const wasLucky = hero.testLuck();
-          const [luckyTo, unLuckyTo] = inter.options;
-          updateHero();
-          doStep(wasLucky ? luckyTo : unluckyTo);
-        };
-        interactions.appendChild(el);
-      } else if (inter.kind === 'fight') {
-        doFight(inter);
-      } else {
-        window.alert('interaction kind ' + inter.kind + ' unsupported');
-      }
+      process(section.interaction).then(() => {
+        console.log('ALL DONE!');
+      });
     }
   }
 
-  window.doStep = doStep;
+  window.doSection = doSection;
 
   function onHash() {
     const hash = (location.hash && location.hash.substring(1)) || '0';
-    doStep(hash);
+    doSection(hash);
   }
   document.addEventListener('hashchange', onHash);
   onHash();

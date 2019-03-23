@@ -6,14 +6,43 @@ function htmlify(txt) {
   return txt.replace(/\n/gm, '<br />').replace(/\t/g, '    ');
 }
 
-fetchAdventure().then((adv) => {
-  const hero = createCharacter(
-    window.prompt("What is your character's name?", 'hero')
-  );
+function uiOneOf(arr, skipClean) {
+  return new Promise((resolve) => {
+    if (skipClean) {
+      interactions.innerHTML = '';
+    }
+    arr.forEach((item) => {
+      const el = document.createElement('button');
+      el.appendChild(document.createTextNode(item.label));
+      el.onclick = () => {
+        resolve(item);
+      };
+      interactions.appendChild(el);
+    });
+  });
+}
+
+fetchAdventure().then(async (adv) => {
+  const potion = (await uiOneOf([
+    { label: 'skill' },
+    { label: 'strength' },
+    { label: 'fortune' }
+  ])).label;
+
+  const hero = await createCharacter('hero', potion);
   window.hero = hero;
 
   function updateHero() {
-    heroStats.innerHTML = '' + hero;
+    //heroStats.innerHTML = '' + hero;
+    document.querySelector(
+      '.hero-stats__stat--stamina span.hero-stats__value'
+    ).innerHTML = hero.stamina;
+    document.querySelector(
+      '.hero-stats__stat--skill span.hero-stats__value'
+    ).innerHTML = hero.skill;
+    document.querySelector(
+      '.hero-stats__stat--luck span.hero-stats__value'
+    ).innerHTML = hero.luck;
   }
 
   updateHero();
@@ -68,22 +97,6 @@ fetchAdventure().then((adv) => {
     } catch (ex) {
       // console.error(ex);
     }
-  }
-
-  function uiOneOf(arr, skipClean) {
-    return new Promise((resolve) => {
-      if (skipClean) {
-        interactions.innerHTML = '';
-      }
-      arr.forEach((item) => {
-        const el = document.createElement('button');
-        el.appendChild(document.createTextNode(item.label));
-        el.onclick = () => {
-          resolve(item);
-        };
-        interactions.appendChild(el);
-      });
-    });
   }
 
   const mapSeries = (arr, prom, prevProm = Promise.resolve()) =>

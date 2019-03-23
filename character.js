@@ -296,12 +296,10 @@ class Character extends Creature {
   }
 }
 
-async function createCharacter(name) {
+async function createCharacter(name, potion = 'strength') {
   const skill = await rollDie() + 6;
   const stamina = await rollDices() + 12;
   const luck = await rollDie() + 6;
-
-  const potion = window.prompt('Which potion do you like to have (skill, strength, fortune)', 'strength')
 
   return new Character({
     name,

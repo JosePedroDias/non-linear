@@ -158,6 +158,7 @@ body {
 }
 
 .hero-stats__value {
+  position: relative;
   height: 10rem;
   width: 10rem;
   border: 2px solid #000;
@@ -175,17 +176,138 @@ body {
   color: white;
 }
 
-.hero-stats__stat--stamina .hero-stats__value {
+.hero-stats__stat .hero-stats__quant {
+  position: absolute;
+  content: '';
+  display: block;
+  width: 10rem;
+  height: 10rem;
+  margin-top: 1.5rem;
+
+  -webkit-clip-path: circle(50% at 50% 50%);
+  clip-path: circle(50% at 50% 50%);
+}
+
+.hero-stats__stat .hero-stats__quant::after {
+  position: absolute;
+  width: 10rem;
+  height: 10rem;
+  background-color: pink;
+  content: '';
+  display: block;
+  bottom: 0;
+}
+
+.hero-stats__stat--luck .hero-stats__quant {
+  width: 4rem;
+  height: 4rem;
+}
+
+.hero-stats__stat--luck .hero-stats__quant::after {
+  position: absolute;
+  width: 4rem;
+  height: 4rem;
+}
+
+.hero-stats__stat .hero-stats__quant--0::after {
+  height: 0;
+}
+
+.hero-stats__stat .hero-stats__quant--10::after {
+  height: calc(calc(10rem * .1) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--20::after {
+  height: calc(calc(10rem * .2) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--30::after {
+  height: calc(calc(10rem * .3) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--40::after {
+  height: calc(calc(10rem * .4) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--50::after {
+  height: calc(calc(10rem * .5) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--60::after {
+  height: calc(calc(10rem * .6) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--70::after {
+  height: calc(calc(10rem * .7) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--80::after {
+  height: calc(calc(10rem * .8) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--90::after {
+  height: calc(calc(10rem * .8) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--0::after {
+  height: 0;
+}
+
+.hero-stats__stat--luck .hero-stats__quant::after {
+  height: 4rem;
+}
+
+.hero-stats__stat--luck .hero-stats__quant--10::after {
+  height: calc(4em * .1);
+}
+
+.hero-stats__stat .hero-stats__quant--20::after {
+  height: calc(4em * .2);
+}
+
+.hero-stats__stat .hero-stats__quant--30::after {
+  height: calc(4em * .3);
+}
+
+.hero-stats__stat .hero-stats__quant--40::after {
+  height: calc(4em * .4);
+}
+
+.hero-stats__stat .hero-stats__quant--50::after {
+  height: calc(4em * .5);
+}
+
+.hero-stats__stat .hero-stats__quant--60::after {
+  height: calc(4em * .6);
+}
+
+.hero-stats__stat .hero-stats__quant--70::after {
+  height: calc(4em * .7);
+}
+
+.hero-stats__stat .hero-stats__quant--80::after {
+  height: calc(4em * .8);
+}
+
+.hero-stats__stat .hero-stats__quant--90::after {
+  height: calc(4em * .9);
+}
+
+.hero-stats__stat--stamina .hero-stats__quant::after {
   background-color: red;
+}
+
+.hero-stats__stat--skill .hero-stats__quant::after {
+  background-color: blue;
+}
+
+.hero-stats__stat--luck .hero-stats__quant::after {
+  background-color: white;
 }
 
 .hero-stats__stat--skill {
   right: -3rem;
   color: white;
-}
-
-.hero-stats__stat--skill .hero-stats__value {
-  background-color: blue;
 }
 
 .hero-stats__stat--luck {
@@ -195,7 +317,6 @@ body {
 }
 
 .hero-stats__stat--luck .hero-stats__value {
-  background-color: white;
   height: 4rem;
   width: 4rem;
   line-height: 4rem;
@@ -227,7 +348,6 @@ body {
   }
 
   .hero-stats__stat--luck .hero-stats__value {
-    background-color: white;
     height: 4rem;
     width: 4rem;
     line-height: 4rem;

@@ -214,39 +214,39 @@ body {
 }
 
 .hero-stats__stat .hero-stats__quant--10::after {
-  height: calc(calc(10rem * .1) + 3rem)
+  height: calc(calc(7rem * .1) + 3rem)
 }
 
 .hero-stats__stat .hero-stats__quant--20::after {
-  height: calc(calc(10rem * .2) + 3rem)
+  height: calc(calc(7rem * .2) + 3rem)
 }
 
 .hero-stats__stat .hero-stats__quant--30::after {
-  height: calc(calc(10rem * .3) + 3rem)
+  height: calc(calc(7rem * .3) + 3rem)
 }
 
 .hero-stats__stat .hero-stats__quant--40::after {
-  height: calc(calc(10rem * .4) + 3rem)
+  height: calc(calc(7rem * .4) + 3rem)
 }
 
 .hero-stats__stat .hero-stats__quant--50::after {
-  height: calc(calc(10rem * .5) + 3rem)
+  height: calc(calc(7rem * .5) + 3rem)
 }
 
 .hero-stats__stat .hero-stats__quant--60::after {
-  height: calc(calc(10rem * .6) + 3rem)
+  height: calc(calc(7rem * .6) + 3rem)
 }
 
 .hero-stats__stat .hero-stats__quant--70::after {
-  height: calc(calc(10rem * .7) + 3rem)
+  height: calc(calc(7rem * .7) + 3rem)
 }
 
 .hero-stats__stat .hero-stats__quant--80::after {
-  height: calc(calc(10rem * .8) + 3rem)
+  height: calc(calc(7rem * .8) + 3rem)
 }
 
 .hero-stats__stat .hero-stats__quant--90::after {
-  height: calc(calc(10rem * .8) + 3rem)
+  height: calc(calc(7rem * .8) + 3rem)
 }
 
 .hero-stats__stat .hero-stats__quant--0::after {
@@ -261,35 +261,35 @@ body {
   height: calc(4em * .1);
 }
 
-.hero-stats__stat .hero-stats__quant--20::after {
+.hero-stats__stat--luck .hero-stats__quant--20::after {
   height: calc(4em * .2);
 }
 
-.hero-stats__stat .hero-stats__quant--30::after {
+.hero-stats__stat--luck .hero-stats__quant--30::after {
   height: calc(4em * .3);
 }
 
-.hero-stats__stat .hero-stats__quant--40::after {
+.hero-stats__stat--luck .hero-stats__quant--40::after {
   height: calc(4em * .4);
 }
 
-.hero-stats__stat .hero-stats__quant--50::after {
+.hero-stats__stat--luck .hero-stats__quant--50::after {
   height: calc(4em * .5);
 }
 
-.hero-stats__stat .hero-stats__quant--60::after {
+.hero-stats__stat--luck .hero-stats__quant--60::after {
   height: calc(4em * .6);
 }
 
-.hero-stats__stat .hero-stats__quant--70::after {
+.hero-stats__stat--luck .hero-stats__quant--70::after {
   height: calc(4em * .7);
 }
 
-.hero-stats__stat .hero-stats__quant--80::after {
+.hero-stats__stat--luck .hero-stats__quant--80::after {
   height: calc(4em * .8);
 }
 
-.hero-stats__stat .hero-stats__quant--90::after {
+.hero-stats__stat--luckx .hero-stats__quant--90::after {
   height: calc(4em * .9);
 }
 

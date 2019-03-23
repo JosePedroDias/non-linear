@@ -48,40 +48,42 @@ fetchAdventure().then(async (adv) => {
   updateHero();
 
   function doFight(inter) {
-    const monsters = inter.enemies.map((en) => new Creature(en));
-    const fight = new Fight(hero, monsters);
-    let outcome;
+    return new Promise(async (resolve, reject) => {
+      const monsters = inter.enemies.map((en) => new Creature(en));
+      const fight = new Fight({ hero, monsters });
+      let outcome = await fight.turn(); // text:string, actions:[Obj], escape:bool, alive:bool
 
-    outcome = fight.turn(); // text:string, actions:[Obj], escape:bool, alive:bool
+      function doSubStep() {
+        updateHero();
 
-    function doSubStep() {
-      updateHero();
+        details.innerHTML = htmlify(outcome.label);
+        // console.log(outcome);
 
-      details.innerHTML = htmlify(outcome.label);
-      // console.log(outcome);
-
-      interactions.innerHTML = '';
-      if (outcome.actions) {
-        outcome.actions.forEach((act) => {
+        interactions.innerHTML = '';
+        if (outcome.actions) {
+          outcome.actions.forEach((act) => {
+            const el = document.createElement('button');
+            el.appendChild(document.createTextNode(act.label));
+            el.onclick = async function() {
+              outcome = await act.callback();
+              doSubStep();
+            };
+            interactions.appendChild(el);
+          });
+        } else if (outcome.alive) {
           const el = document.createElement('button');
-          el.appendChild(document.createTextNode(act.label));
+          el.appendChild(document.createTextNode('continue'));
           el.onclick = function() {
-            outcome = act.callback();
-            doSubStep();
+            resolve();
           };
           interactions.appendChild(el);
-        });
-      } else if (outcome.alive) {
-        const el = document.createElement('button');
-        el.appendChild(document.createTextNode('turn page'));
-        el.onclick = function() {
-          doStep(inter.to);
-        };
-        interactions.appendChild(el);
+        } else {
+          reject();
+        }
       }
-    }
 
-    doSubStep();
+      doSubStep();
+    });
   }
 
   function runCommand(arr) {
@@ -105,7 +107,7 @@ fetchAdventure().then(async (adv) => {
   function process(int) {
     console.warn('process', int);
 
-    return new Promise((resolve) => {
+    return new Promise(async (resolve) => {
       if (int.do) {
         if (int.label) {
           uiOneOf([int])
@@ -114,13 +116,15 @@ fetchAdventure().then(async (adv) => {
         } else {
           process(int.do).then(resolve);
         }
+      } else if (int.fight) {
+        doFight({ enemies: int.fight, escape: int.escape }).then(resolve);
       } else if (int.oneOf) {
         uiOneOf(int.oneOf)
-          .then((t) => process(t.do || t))
+          .then(async ({ label, ...t }) => process(t.do || t))
           .then(resolve);
       } else if (int.lucky || int.unlucky) {
-        function work() {
-          const wasLucky = hero.testLuck();
+        async function work() {
+          const wasLucky = await hero.testLuck();
           const whatToDo = wasLucky ? int.lucky : int.unlucky;
           if (whatToDo) {
             return process(whatToDo);
@@ -133,7 +137,7 @@ fetchAdventure().then(async (adv) => {
             .then(work)
             .then(resolve);
         } else {
-          work().then(resolve);
+          await work().then(resolve);
         }
       } else if (int.sequence) {
         mapSeries(int.sequence, process).then(resolve);

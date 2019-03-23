@@ -41,23 +41,6 @@ def processFight(section):
                 enemies.append(enemy_obj)
             else: 
                 break
-
-        if 'interaction' in section:
-            interaction =  {
-                'kind': 'fight',
-                'enemies': enemies,
-                'to': section['interaction']['options'][0]['to']
-            }
-             
-        else:
-            interaction =  {
-                'kind': 'fight',
-                'enemies': enemies,
-                'to': 'back'
-            }
-             
-        section['interaction'] = interaction
-    
     elif SingularEnemyFight(section):
         result = re.search('(.*)SKILL(.*)STAMINA(.*)', section['text'])
         name =  result.group(1).strip()
@@ -69,30 +52,15 @@ def processFight(section):
             'stamina': stamina,
         }
         enemies.append(enemy_obj)
-        
-        if 'interaction' in section:
-            if type(section['interaction']['options']) is list:
-                interaction =  {
-                    'kind': 'fight',
-                    'enemies': enemies,
-                    'to': section['interaction']['options']
-                }
-            else:
-                interaction =  {
-                    'kind': 'fight',
-                    'enemies': enemies,
-                    'to': section['interaction']['options'][0]['to']
-                }
-             
-        else:
-            interaction =  {
-                'kind': 'fight',
-                'enemies': enemies,
-                'to': 'back'
-            }
-             
-        section['interaction'] = interaction
-
+    if SingularEnemyFight(section) or isMultiEnemiesFightSection(section):
+        original_interaction = section['interaction']
+        sequence = [{
+            'fight' : enemies
+        }]
+        sequence.append(original_interaction)
+        section['interaction'] = {
+            'sequence': sequence
+        }
 
 def processContent(section_content, section_number):
     turn_to_rgx = '[Tt]{1}urn to (\\d+)'
@@ -103,20 +71,30 @@ def processContent(section_content, section_number):
 
     options = []
     for section in target_sections:
-        options.append({
-                    'label': 'turn to page ' +  str(section),
-                    'to': str(section),
-                    })
+        if not is_luck_section:
+            options.append({
+                'label': 'turn to page ' +  str(section),
+                'do': ['goTo', str(section)],
+            })
                 
     processedSection = {
         'text': unicode(section_content, errors='ignore'),
     }
 
-    if(len(target_sections) or is_luck_section):
+    if len(target_sections) == 1 and not is_luck_section:
+        processedSection['interaction'] = options[0]
+    elif len(target_sections) >= 1 and not is_luck_section:
         processedSection['interaction'] = {
-            'kind': 'luck' if is_luck_section else 'gotos',
-            'options': [option['to'] for option in options] if is_luck_section else options
+            'oneOf': options
         }
+    elif len(target_sections) == 2  and is_luck_section:
+        processedSection['interaction'] = {
+            'label': 'Test your luck',
+            'lucky': ['goTo', str(target_sections[0])],
+            'unlucky': ['goTo', str(target_sections[1])]
+        }
+    else:
+        processedSection['interaction'] = '****TODO****'
 
     image_file = str(section_number) + '.jpg'
     if image_file in image_files:

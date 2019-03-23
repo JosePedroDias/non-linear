@@ -270,6 +270,10 @@ body {
   box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
 }
 
+.die.hide {
+  visibility: hidden;
+}
+
 @keyframes spin {
     0% { transform: translateZ(-50px) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
     16% { transform: translateZ(-50px) rotateX(180deg) rotateY(180deg) rotateZ(0deg); }
@@ -289,8 +293,6 @@ body {
   transition: transform 0.8s;
   font-family: var(--font-family);
 }
-
-.animation-1 {animation: spin 50s infinite linear;}
 
 .animation-2 {animation: spin 1.6s infinite linear;}
 
@@ -343,4 +345,24 @@ body {
     box-sizing: border-box;
     line-height: 100px;
     text-align: center;
+}
+
+.cube.red div {
+  background: radial-gradient(#f11, #f55);
+  border: solid 6px #f55;
+}
+
+.cube.blue div {
+  background: radial-gradient(#11f, #55f);
+  border: solid 6px #55f;
+}
+
+.cube.yellow div {
+  background: radial-gradient(#ff1, #ff5);
+  border: solid 6px #ff5;
+}
+
+.cube.green div {
+  background: radial-gradient(#1f1, #5f5);
+  border: solid 6px #5f5;
 }

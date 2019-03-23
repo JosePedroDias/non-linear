@@ -47,10 +47,11 @@ fetchAdventure().then(async (adv) => {
 
   updateHero();
 
-  function doFight(inter) {
+  function doFight({ enemies, ...batatas }) {
     return new Promise(async (resolve, reject) => {
-      const monsters = inter.enemies.map((en) => new Creature(en));
-      const fight = new Fight({ hero, monsters });
+      const monsters = enemies.map((en) => new Creature(en));
+      console.log('fight:', { hero, monsters, ...batatas });
+      const fight = new Fight({ hero, monsters, ...batatas });
       let outcome = await fight.turn(); // text:string, actions:[Obj], escape:bool, alive:bool
 
       function doSubStep() {
@@ -117,7 +118,11 @@ fetchAdventure().then(async (adv) => {
           process(int.do).then(resolve);
         }
       } else if (int.fight) {
-        doFight({ enemies: int.fight, escape: int.escape })
+        doFight({
+          enemies: int.fight,
+          canEscape: int.escape,
+          beatEmUp: int.beatEmUp
+        })
           .then(resolve)
           .catch(() => {
             process(int.escape); // TODO?

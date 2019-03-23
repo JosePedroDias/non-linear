@@ -1,25 +1,26 @@
 /**************DICES**************/
 const die = document.getElementById('cube');
 
-const rollDie = (sides = 6) => new Promise((resolve) => {
-  die.classList.remove('animation-1');
-  die.classList.add('animation-2');
-
-  setTimeout(() => {
-    die.classList.remove('animation-2');
-
-    const value = 1 + Math.floor(sides * Math.random());
-
-    die.classList.add(`show-${value}`);
+const rollDie = (sides = 6) =>
+  new Promise((resolve) => {
+    die.classList.remove('animation-1');
+    die.classList.add('animation-2');
 
     setTimeout(() => {
-      die.classList.remove(`show-${value}`);
-      die.classList.add('animation-1');
-  
-      resolve(value);
-    }, 400);
-  }, 600);
-});
+      die.classList.remove('animation-2');
+
+      const value = 1 + Math.floor(sides * Math.random());
+
+      die.classList.add(`show-${value}`);
+
+      setTimeout(() => {
+        die.classList.remove(`show-${value}`);
+        die.classList.add('animation-1');
+
+        resolve(value);
+      }, 400);
+    }, 600);
+  });
 
 const rollDices = async (diceCounts = 2, sides) => {
   let sum = 0;
@@ -136,7 +137,14 @@ class Attribute {
 
 /**************EQUIPMENT**************/
 class Equipment {
-  constructor({ type, shouldUnequip = true, skill = 0, stamina = 0, luck = 0, bind }) {
+  constructor({
+    type,
+    shouldUnequip = true,
+    skill = 0,
+    stamina = 0,
+    luck = 0,
+    bind
+  }) {
     this.type = type;
     this.skill = skill;
     this.stamina = stamina;
@@ -154,7 +162,9 @@ class Equipment {
   }
 
   unequip(hero) {
-    if (!this.shouldUnequip) { return; }
+    if (!this.shouldUnequip) {
+      return;
+    }
 
     hero.skill.update(-this.skill);
     hero.stamina.update(-this.stamina);
@@ -166,8 +176,12 @@ const equipments = {
   circularIronShield: new Equipment({ type: 'shield' }),
   bronzeHelmet: new Equipment({ type: 'helmet', skill: -1, bind: true }),
   ironHelmet: new Equipment({ type: 'helmet' }),
-  gleamingSword: new Equipment({ type: 'weapon', skill: 1, shouldUnequip: false })
-}
+  gleamingSword: new Equipment({
+    type: 'weapon',
+    skill: 1,
+    shouldUnequip: false
+  })
+};
 /**************EQUIPMENT**************/
 
 /**************CREATURE**************/
@@ -179,7 +193,7 @@ class Creature {
   }
 
   async attack() {
-    return await rollDices() + this.skill;
+    return (await rollDices()) + this.skill;
   }
 
   hasAttr(name) {
@@ -230,7 +244,9 @@ class Character extends Creature {
     const { type } = equipment;
 
     if (this[type]) {
-      if (this[type].bind) { return; }
+      if (this[type].bind) {
+        return;
+      }
 
       this[type].unequip(this);
     }
@@ -251,7 +267,7 @@ class Character extends Creature {
   dropItem(name) {
     delete this.items[name];
 
-    return this;  
+    return this;
   }
 
   takeKey(name) {
@@ -280,11 +296,11 @@ class Character extends Creature {
   }
 
   async attack(skillModifier = 0) {
-    return await rollDices() + this.skill + skillModifier;
+    return (await rollDices()) + this.skill + skillModifier;
   }
 
   async testLuck(luckModifier) {
-    const wasLucky = await rollDices() <= this.luck + luckModifier;
+    const wasLucky = (await rollDices()) <= this.luck + luckModifier;
 
     this.updateAttr('luck', -1);
 
@@ -297,9 +313,9 @@ class Character extends Creature {
 }
 
 async function createCharacter(name, potion = 'strength') {
-  const skill = await rollDie() + 6;
-  const stamina = await rollDices() + 12;
-  const luck = await rollDie() + 6;
+  const skill = (await rollDie()) + 6;
+  const stamina = (await rollDices()) + 12;
+  const luck = (await rollDie()) + 6;
 
   return new Character({
     name,
@@ -308,7 +324,7 @@ async function createCharacter(name, potion = 'strength') {
     potion,
     luck
   });
-};
+}
 /**************CREATURE**************/
 
 /**************FIGHT**************/
@@ -316,13 +332,10 @@ class Fight {
   constructor({
     hero,
     monsters,
-    canEscape = true,
+    canEscape,
     section,
     beatEmUp,
-    modifiers: {
-      skill = 0,
-      luck = 0
-    } = {}
+    modifiers: { skill = 0, luck = 0 } = {}
   }) {
     this.hero = hero;
     this.monsters = monsters;
@@ -337,15 +350,17 @@ class Fight {
 
   turn() {
     let label;
-    const actions = this.beatEmUp ? this.monsters.map((monster, index) => ({
-      label: `Fight ${monster.name}`,
-      callback: async () => await this.attackMob(index)
-    })) : [
-      {
-        label: 'Fight',
-        callback: async () => await this.attack()
-      }
-    ];
+    const actions = this.beatEmUp
+      ? this.monsters.map((monster, index) => ({
+          label: `Fight ${monster.name}`,
+          callback: async () => await this.attackMob(index)
+        }))
+      : [
+          {
+            label: 'Fight',
+            callback: async () => await this.attack()
+          }
+        ];
 
     if (this.monsters.length === 1) {
       label = this.monsters[0].toString();
@@ -356,23 +371,26 @@ class Fight {
     }
 
     if (this.canEscape) {
-      actions.push({
-        label: 'Escape',
-        callback: async () => await this.escape()
-      }, {
-        label: 'Escape (with Lucky)',
-        callback: async () => await this.escape(true)
-      });
+      actions.push(
+        {
+          label: 'Escape',
+          callback: async () => await this.escape()
+        },
+        {
+          label: 'Escape (with Lucky)',
+          callback: async () => await this.escape(true)
+        }
+      );
     }
 
     return { actions, label };
-  };
+  }
 
   async escape(testLuck) {
     let damage = 2;
 
     if (testLuck) {
-      damage += await this.hero.testLuck(this.modifiers.luck) ? -1 : 1;
+      damage += (await this.hero.testLuck(this.modifiers.luck)) ? -1 : 1;
     }
 
     this.hero.updateAttr('stamina', -damage);
@@ -396,7 +414,7 @@ class Fight {
     this.heroStrenght = await this.hero.attack(this.modifiers.skill);
     this.monsterStrenght = await this.monsters[0].attack();
 
-    let label = `Hero Strenght\tMonster Strenght (${this.monsters[0].name})
+    let label = `Hero Strength\tMonster Strength (${this.monsters[0].name})
 ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
 `;
 
@@ -451,7 +469,10 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
         damage += wasLucky ? -1 : 1;
       }
 
-      if (this.hero.shield === equipments.circularIronShield && await rollDie() === 6) {
+      if (
+        this.hero.shield === equipments.circularIronShield &&
+        (await rollDie()) === 6
+      ) {
         damage -= 1;
       }
 
@@ -472,7 +493,9 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
 
     if (wounded.stamina >= 1) {
       return {
-        label: `${wounded.name} ${damage > 0 ? `was wounded (${damage}).` : 'parry the blow'}`,
+        label: `${wounded.name} ${
+          damage > 0 ? `was wounded (${damage}).` : 'parry the blow'
+        }`,
         actions: [
           {
             label: 'Continue',
@@ -509,7 +532,7 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
     };
   }
 
-  async attackMob(attackedIndex, index = 0) {
+  async attackMob(attackedIndex, index = 0, skipWoundMonster) {
     const actions = [];
 
     this.heroStrenght = await this.hero.attack(this.modifiers.skill);
@@ -523,18 +546,28 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
       label += '\nDraw';
       actions.push({
         label: 'Continue',
-        callback: this.monsters.length - 1 === index ? () => this.turn() : async () => await this.attackMob(attackedIndex, ++index)
+        callback:
+          this.monsters.length - 1 === index
+            ? () => this.turn()
+            : async () => await this.attackMob(attackedIndex, ++index)
       });
-    } else if (this.heroStrenght > this.monsterStrenght && attackedIndex !== index) {
+    } else if (
+      this.heroStrenght > this.monsterStrenght &&
+      (attackedIndex !== index || skipWoundMonster)
+    ) {
       actions.push({
         label: 'Continue',
-        callback: this.monsters.length - 1 === index ? () => this.turn() : async () => await this.attackMob(attackedIndex, ++index)
+        callback:
+          this.monsters.length - 1 === index
+            ? () => this.turn()
+            : async () => await this.attackMob(attackedIndex, ++index)
       });
     } else {
       label += '\nDo you want to Test your Luck?';
       actions.push(
         {
-          callback: async () => await this.damageMob(attackedIndex, index, true),
+          callback: async () =>
+            await this.damageMob(attackedIndex, index, true),
           label: 'Yes'
         },
         {
@@ -575,7 +608,10 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
         damage += wasLucky ? -1 : 1;
       }
 
-      if (this.hero.shield === equipments.circularIronShield && await rollDie() === 6) {
+      if (
+        this.hero.shield === equipments.circularIronShield &&
+        (await rollDie()) === 6
+      ) {
         damage -= 1;
       }
 
@@ -596,11 +632,16 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
 
     if (wounded.stamina >= 1) {
       return {
-        label: `${wounded.name} ${damage > 0 ? `was wounded (${damage}).` : 'parry the blow'}`,
+        label: `${wounded.name} ${
+          damage > 0 ? `was wounded (${damage}).` : 'parry the blow'
+        }`,
         actions: [
           {
             label: 'Continue',
-            callback: this.monsters.length - 1 === index ? () => this.turn() : () => this.attackMob(attackedIndex, ++index)
+            callback:
+              this.monsters.length - 1 === index
+                ? () => this.turn()
+                : () => this.attackMob(attackedIndex, ++index)
           }
         ]
       };
@@ -621,7 +662,10 @@ ${this.heroStrenght}\t\t\t\t${this.monsterStrenght}
         actions: [
           {
             label: 'Continue',
-            callback: this.monsters.length - 1 === index ? () => this.turn() : () => this.attackMob(attackedIndex, index)
+            callback:
+              this.monsters.length === index
+                ? () => this.turn()
+                : () => this.attackMob(attackedIndex, index, true)
           }
         ]
       };

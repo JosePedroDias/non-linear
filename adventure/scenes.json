@@ -202,29 +202,16 @@
     "interaction": {
       "sequence": [
         {
+          "escape": ["goTo", "269", "*****TODO*****secondRound"],
           "fight": [
             {
-              "stamina": "10",
-              "skill": "8",
+              "stamina": 10,
+              "skill": 8,
               "name": "OGRE"
-            },
-            {
-              "escape": ["goTo", "269", "*****TODO*****secondRound"]
             }
           ]
         },
-        {
-          "oneOf": [
-            {
-              "do": ["goTo", "269"],
-              "label": "turn to page 269"
-            },
-            {
-              "do": ["goTo", "50"],
-              "label": "turn to page 50"
-            }
-          ]
-        }
+        ["goTo", "50"]
       ]
     }
   },
@@ -1781,7 +1768,28 @@
     "interaction": {
       "sequence": [
         {
-          "fight": []
+          "fight": [
+            {
+              "name": "SKELETON",
+              "skill": 7,
+              "stamina": 5
+            }
+          ]
+        },
+        {
+          "beatEmUp": true,
+          "fight": [
+            {
+              "name": "SKELETON A",
+              "skill": 6,
+              "stamina": 6
+            },
+            {
+              "name": "SKELETON B",
+              "skill": 5,
+              "stamina": 6
+            }
+          ]
         },
         {
           "do": ["goTo", "395"],

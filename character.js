@@ -1,36 +1,35 @@
 /**************DICES**************/
-const die = document.getElementById('cube');
+const dices = document.getElementsByClassName('die');
+const cubes = document.getElementsByClassName('cube');
 
-const rollDie = (sides = 6) =>
+const rollDie = (color = 'white', die = dices[0], cube = cubes[0], sides = 6) =>
   new Promise((resolve) => {
-    die.classList.remove('animation-1');
-    die.classList.add('animation-2');
+    cube.classList.add(color);
+    cube.classList.add('animation-2');
+    die.classList.remove('hide');
 
     setTimeout(() => {
-      die.classList.remove('animation-2');
+      cube.classList.remove('animation-2');
 
       const value = 1 + Math.floor(sides * Math.random());
 
-      die.classList.add(`show-${value}`);
+      cube.classList.add(`show-${value}`);
 
       setTimeout(() => {
-        die.classList.remove(`show-${value}`);
-        die.classList.add('animation-1');
+        cube.classList.remove(`show-${value}`);
+        cube.classList.remove(color);
+        die.classList.add('hide');
 
         resolve(value);
       }, 400);
     }, 600);
   });
 
-const rollDices = async (diceCounts = 2, sides) => {
-  let sum = 0;
-
-  while (diceCounts--) {
-    sum += await rollDie(sides);
-  }
-
-  return sum;
-};
+const sum = (a, b) => a + b;
+const rollDices = async (color, diceCounts = 2, sides) =>
+  Promise.all(new Array(diceCounts).fill(0).map((_, index) =>
+    rollDie(color, dices[index], cubes[index], sides)
+  )).then((rolls) => rolls.reduce(sum));
 /**************DICES**************/
 
 /**************POTIONS**************/
@@ -193,7 +192,7 @@ class Creature {
   }
 
   async attack() {
-    return (await rollDices()) + this.skill;
+    return (await rollDices('green')) + this.skill;
   }
 
   hasAttr(name) {
@@ -296,7 +295,7 @@ class Character extends Creature {
   }
 
   async attack(skillModifier = 0) {
-    return (await rollDices()) + this.skill + skillModifier;
+    return (await rollDices('yellow')) + this.skill + skillModifier;
   }
 
   async testLuck(luckModifier) {
@@ -313,8 +312,8 @@ class Character extends Creature {
 }
 
 async function createCharacter(name, potion = 'strength') {
-  const skill = (await rollDie()) + 6;
-  const stamina = (await rollDices()) + 12;
+  const skill = (await rollDie('blue')) + 6;
+  const stamina = (await rollDices('red')) + 12;
   const luck = (await rollDie()) + 6;
 
   return new Character({

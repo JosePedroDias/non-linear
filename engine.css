@@ -158,6 +158,7 @@ body {
 }
 
 .hero-stats__value {
+  position: relative;
   height: 10rem;
   width: 10rem;
   border: 2px solid #000;
@@ -175,17 +176,142 @@ body {
   color: white;
 }
 
-.hero-stats__stat--stamina .hero-stats__value {
+.hero-stats__stat .hero-stats__quant {
+  position: absolute;
+  content: '';
+  display: block;
+  width: 10rem;
+  height: 10rem;
+  margin-top: 1.5rem;
+
+  -webkit-clip-path: circle(50% at 50% 50%);
+  clip-path: circle(50% at 50% 50%);
+}
+
+.hero-stats__stat .hero-stats__quant::after {
+  position: absolute;
+  width: 10rem;
+  height: 10rem;
+  background-color: pink;
+  content: '';
+  display: block;
+  bottom: 0;
+}
+
+.hero-stats__stat--luck .hero-stats__quant {
+  width: 4rem;
+  height: 4rem;
+}
+
+.hero-stats__stat--luck .hero-stats__quant::after {
+  position: absolute;
+  width: 4rem;
+  height: 4rem;
+}
+
+.hero-stats__stat .hero-stats__quant--0::after {
+  height: 0;
+}
+
+.hero-stats__stat .hero-stats__quant--10::after {
+  height: calc(calc(7rem * .1) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--20::after {
+  height: calc(calc(7rem * .2) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--30::after {
+  height: calc(calc(7rem * .3) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--40::after {
+  height: calc(calc(7rem * .4) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--50::after {
+  height: calc(calc(7rem * .5) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--60::after {
+  height: calc(calc(7rem * .6) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--70::after {
+  height: calc(calc(7rem * .7) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--80::after {
+  height: calc(calc(7rem * .8) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--90::after {
+  height: calc(calc(7rem * .8) + 3rem)
+}
+
+.hero-stats__stat .hero-stats__quant--0::after {
+  height: 0;
+}
+
+.hero-stats__stat--luck .hero-stats__quant::after {
+  height: 4rem;
+}
+
+.hero-stats__stat--luck .hero-stats__quant--0::after {
+  height: 0;
+}
+
+.hero-stats__stat--luck .hero-stats__quant--10::after {
+  height: calc(4em * .1);
+}
+
+.hero-stats__stat--luck .hero-stats__quant--20::after {
+  height: calc(4em * .2);
+}
+
+.hero-stats__stat--luck .hero-stats__quant--30::after {
+  height: calc(4em * .3);
+}
+
+.hero-stats__stat--luck .hero-stats__quant--40::after {
+  height: calc(4em * .4);
+}
+
+.hero-stats__stat--luck .hero-stats__quant--50::after {
+  height: calc(4em * .5);
+}
+
+.hero-stats__stat--luck .hero-stats__quant--60::after {
+  height: calc(4em * .6);
+}
+
+.hero-stats__stat--luck .hero-stats__quant--70::after {
+  height: calc(4em * .7);
+}
+
+.hero-stats__stat--luck .hero-stats__quant--80::after {
+  height: calc(4em * .8);
+}
+
+.hero-stats__stat--luckx .hero-stats__quant--90::after {
+  height: calc(4em * .9);
+}
+
+.hero-stats__stat--stamina .hero-stats__quant::after {
   background-color: red;
+}
+
+.hero-stats__stat--skill .hero-stats__quant::after {
+  background-color: blue;
+}
+
+.hero-stats__stat--luck .hero-stats__quant::after {
+  background-color: white;
 }
 
 .hero-stats__stat--skill {
   right: -3rem;
   color: white;
-}
-
-.hero-stats__stat--skill .hero-stats__value {
-  background-color: blue;
 }
 
 .hero-stats__stat--luck {
@@ -195,7 +321,6 @@ body {
 }
 
 .hero-stats__stat--luck .hero-stats__value {
-  background-color: white;
   height: 4rem;
   width: 4rem;
   line-height: 4rem;
@@ -227,7 +352,6 @@ body {
   }
 
   .hero-stats__stat--luck .hero-stats__value {
-    background-color: white;
     height: 4rem;
     width: 4rem;
     line-height: 4rem;
@@ -270,6 +394,15 @@ body {
   box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
 }
 
+.die.second {
+  top: 4rem;
+  right: 13rem;
+}
+
+.die.hide {
+  visibility: hidden;
+}
+
 @keyframes spin {
     0% { transform: translateZ(-50px) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
     16% { transform: translateZ(-50px) rotateX(180deg) rotateY(180deg) rotateZ(0deg); }
@@ -289,8 +422,6 @@ body {
   transition: transform 0.8s;
   font-family: var(--font-family);
 }
-
-.animation-1 {animation: spin 50s infinite linear;}
 
 .animation-2 {animation: spin 1.6s infinite linear;}
 
@@ -343,4 +474,24 @@ body {
     box-sizing: border-box;
     line-height: 100px;
     text-align: center;
+}
+
+.cube.red div {
+  background: radial-gradient(#f11, #f55);
+  border: solid 6px #f55;
+}
+
+.cube.blue div {
+  background: radial-gradient(#11f, #55f);
+  border: solid 6px #55f;
+}
+
+.cube.yellow div {
+  background: radial-gradient(#ff1, #ff5);
+  border: solid 6px #ff5;
+}
+
+.cube.green div {
+  background: radial-gradient(#1f1, #5f5);
+  border: solid 6px #5f5;
 }

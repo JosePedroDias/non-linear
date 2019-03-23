@@ -30,11 +30,14 @@ function uiOneOf(arr, skipClean) {
 }
 
 fetchAdventure().then(async (adv) => {
+  details.classList.remove('hide');
+  details.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Choose your potion!';
   const potion = (await uiOneOf([
     { label: 'skill' },
     { label: 'strength' },
     { label: 'fortune' }
   ])).label;
+  details.classList.add('hide');
 
   const hero = await createCharacter('hero', potion);
   window.hero = hero;

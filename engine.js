@@ -37,12 +37,24 @@ fetchAdventure().then(async (adv) => {
     document.querySelector(
       '.hero-stats__stat--stamina span.hero-stats__value'
     ).innerHTML = hero.stamina;
+    const staminaPerc = parseInt(hero.stamina.value / hero.stamina.initial * 10) * 10;
+    document.querySelector(
+      '.hero-stats__stat--stamina span.hero-stats__quant'
+    ).className = `hero-stats__quant hero-stats__quant--${staminaPerc > 100 ? 100 : staminaPerc}`;
     document.querySelector(
       '.hero-stats__stat--skill span.hero-stats__value'
     ).innerHTML = hero.skill;
+    const skillPerc = parseInt(hero.skill.value / hero.skill.initial * 10) * 10;
+    document.querySelector(
+      '.hero-stats__stat--skill span.hero-stats__quant'
+    ).className = `hero-stats__quant hero-stats__quant--${skillPerc > 100 ? 100 : skillPerc}`;
     document.querySelector(
       '.hero-stats__stat--luck span.hero-stats__value'
     ).innerHTML = hero.luck;
+    const luckPerc = parseInt(hero.luck.value / hero.luck.initial * 10) * 10;
+    document.querySelector(
+      '.hero-stats__stat--luck span.hero-stats__quant'
+    ).className = `hero-stats__quant hero-stats__quant--${luckPerc > 100 ? 100 : luckPerc}`;
   }
 
   updateHero();

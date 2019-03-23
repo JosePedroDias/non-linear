@@ -257,6 +257,10 @@ body {
   height: 4rem;
 }
 
+.hero-stats__stat--luck .hero-stats__quant--0::after {
+  height: 0;
+}
+
 .hero-stats__stat--luck .hero-stats__quant--10::after {
   height: calc(4em * .1);
 }

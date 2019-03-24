@@ -1,14 +1,19 @@
 We decided to adapt the [Fighting Fantasy](https://www.fightingfantasy.com/) book
 [The Warlock of Firetop Mountain](https://www.amazon.co.uk/Fighting-Fantasy-Warlock-Firetop-Mountain/dp/1407181300)
 
+## present times
+
 - [play the game](https://josepedrodias.github.io/non-linear/)
 - [documentation](documentation.md)
 - [the book data we generated](adventure/scenes.json)
-- see the adventure graph
-  [pdf](https://josepedrodias.github.io/non-linear/graph.pdf)
-  [html](https://josepedrodias.github.io/non-linear/graph.html)
+- [see the adventure graph](https://josepedrodias.github.io/non-linear/graph.html)
 
-## small history of how it rolled out
+## hackaton
+
+- [slides we used in the first 30s of the 90s hackaton pitch](https://www.slideshare.net/sabatlisbon/non-linear-pixel-camp-30)
+- [video of the pitch](https://photos.app.goo.gl/69inzVLBQDpFXFHq5)
+
+### small history of how it rolled out
 
 - we decided on doing this as these books were part of our childhood and are a good example of an interactive narrative
 - we chose this book as it is the first one and popular

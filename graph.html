@@ -6,6 +6,7 @@
 <script src="external/d3.v4.js"></script>
 <script src="external/graphlib-dot.js"></script>
 <script src="external/dagre-d3.js"></script>
+<script src="generateGraphFromAdventure.js"></script>
 
 <style>
   html,
@@ -94,8 +95,13 @@
       d3.select('svg g').call(render, g);
     }
 
-    fetch('adventure/adventureGenerated.dot')
+    /* fetch('adventure/adventureGenerated.dot')
       .then((resp) => resp.text())
+      .then(draw); */
+
+    fetch('adventure/scenes.json')
+      .then((resp) => resp.json())
+      .then(generateDotFromAdventure)
       .then(draw);
   </script>
 </body>
